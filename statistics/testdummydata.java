@@ -2,7 +2,7 @@ import java.util.Random;
 import java.util.ArrayList;
 
 public class testdummydata {
-  public static void main(String[] args) {
+  public ArrayList<ArrayList<Response>> testData() {
     Random rand = new Random();
     ArrayList<ArrayList<Response>> data = new ArrayList<ArrayList<Response>>();
     ArrayList<Integer> qanswered = new ArrayList<Integer>();
@@ -12,15 +12,16 @@ public class testdummydata {
     choices[1] = "wrong";
     choices[2] = "skipped";
 
-    for(int i = 1; i < people; i++) {
+    for(int i = 1; i < people; ++i) {
       int answered = rand.nextInt(10) + 1;
-      System.out.println(answered);
+      //System.out.println(answered);
       qanswered.add(answered);
       ArrayList<Response> person = new ArrayList<Response>();
-      for(int j = 0; j < answered; j++) {
+      for(int j = 0; j <= answered; ++j) {
         person.add(new Response(choices[rand.nextInt(3)], rand.nextFloat()*10));
       }
       data.add(person);
     }
+    return(data);
   }
 }

@@ -16,11 +16,8 @@ public class Main extends Application {
     Scene scene1, scene2;
 	static int i = 0;
 	static school[] schoolList = new school[5];		// Array of school objects
-	static quizQuestions[][] questionSet = new quizQuestions[3][9];		// Potentially for add questions page
     static ChoiceBox<school> choiceBox = new ChoiceBox<school>();			// choicebox to choose school
-    static ChoiceBox<quizQuestions[]> choiceBox2 = new ChoiceBox<quizQuestions[]>();	// Potentially for add questions page
 
-            	 
     	public static void main(String[] args) { 
     		launch(args);   
     	} 
@@ -33,15 +30,21 @@ public class Main extends Application {
 		pageTitle.setText("Welcome");
 		pageTitle.setStyle("-fx-font: 26 arial;");
 
-		Button btn1 = new Button();
-		btn1.setText("Admin");
-		btn1.setOnAction(e -> {
-			engagement();
-		});
+		Button adminButton = new Button();
+		adminButton.setText("Admin");
+		adminButton.setOnAction(e -> engagement());
 
-	    Button btn2 = new Button();
-	    btn2.setText("Start the QUIZ!");
-	    btn2.setOnAction(e -> System.out.println(choiceBox.getValue()));
+	    Button playQuizButton = new Button();
+	    playQuizButton.setText("Start the QUIZ!");
+	    playQuizButton.setOnAction(e ->{
+	    		if (choiceBox.getValue() == null) {
+	    			alertBox.noDetails("empty", "Select your school");;
+	    		} else if(AddQuestionSet.listofQuizQuestions.size() != 9) {
+	    			alertBox.noDetails("", "Add full set of questions first");
+	    		} else {
+	    			PlayQuiz.display();
+	    		}
+	    });
     
 		HBox titleBar = new HBox();
 		titleBar.setAlignment(Pos.CENTER);
@@ -49,11 +52,11 @@ public class Main extends Application {
 		
 		HBox bottomBar = new HBox();
 		bottomBar.setAlignment(Pos.BOTTOM_RIGHT);
-		bottomBar.getChildren().add(btn1);
+		bottomBar.getChildren().add(adminButton);
 		
 		VBox options = new VBox(20);
 		options.setAlignment(Pos.CENTER);
-		options.getChildren().addAll(btn2, choiceBox);
+		options.getChildren().addAll(playQuizButton, choiceBox);
 		
 		BorderPane borderpane = new BorderPane();
 		borderpane.setTop(titleBar);
@@ -75,16 +78,16 @@ public class Main extends Application {
         //Button 1
         Label label1 = new Label("Engagement Team");
 	    label1.setStyle("-fx-font: 26 arial;");
-        Button button1 = new Button ("Enter School details");
-        Button button2 = new Button ("Change Theme");
+        Button button1 = new Button ("Add Schools");
+        Button button2 = new Button ("Set Questions");
         Button button3 = new Button ("Statistics");
         Button button4 = new Button ("Return");
 
-        button1.setOnAction(e -> {
-        		schoolAdder();
-        });
-        //button2.setOnAction(e -> addQuestionsPage());
+        button1.setOnAction(e ->schoolAdder());
+        button2.setOnAction(e -> AddQuestionSet.display());
+        // button3.setOnAction(e -> );
         button4.setOnAction(e -> window.close());
+
 
         //testing for layout
         HBox titleBar = new HBox();

@@ -23,6 +23,7 @@ public class Main extends Application {
     	} 
  
     	public void start(Stage myStage) {  // --> Create the App Window 
+    		BuildTestData.testDataCreator(AddQuestionSet.listofQuizQuestions);
     		 
     		myStage.setTitle("Main Page"); 
 
@@ -39,7 +40,7 @@ public class Main extends Application {
 	    playQuizButton.setOnAction(e ->{
 	    		if (choiceBox.getValue() == null) {
 	    			alertBox.noDetails("empty", "Select your school");;
-	    		} else if(AddQuestionSet.listofQuizQuestions.size() != 9) {
+	    		} else if(AddQuestionSet.listofQuizQuestions.size() < 9) {
 	    			alertBox.noDetails("", "Add full set of questions first");
 	    		} else {
 	    			PlayQuiz.display();

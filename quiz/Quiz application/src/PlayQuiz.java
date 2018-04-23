@@ -15,20 +15,23 @@ import javafx.event.*;
 
 public class PlayQuiz {
 	
+	static int correctAnswers = 0;
+	static int skippedAnswers = 0;
+	
 	static int questionNumber = 0;
 	static Label question = new Label();
 	static Button btn1 = new Button("");
 	static Button btn2 = new Button("");
 	static Button btn3 = new Button("");
 	static Button btn4 = new Button("");
+	static Stage window = new Stage();
 
 	public static void display(){
-		Stage window = new Stage();
 
 		FlowPane rootNode = new FlowPane(10, 10);
 		Scene scene = new Scene(rootNode, 500, 500);
 
-	    	question.setText("question");
+	    	question.setText("Question");
 	    	question.setStyle("-fx-font: 28 arial;");
 	    	question.setLayoutY(50);
 	    	question.setLayoutX(115);
@@ -65,6 +68,7 @@ public class PlayQuiz {
 
    	 	Button btn6 = new Button("Skip");
    	 	btn6.setOnAction(e -> {
+   	 		skippedAnswers++;
    	 		alertBox.quizAnswerMessage("Skipped!", "Question skipped");
    	 	});
 	    btn6.setLayoutY(390);
@@ -79,6 +83,7 @@ public class PlayQuiz {
 
 		btn1.setOnAction(e -> {
 			if(btn1.getText().equals(AddQuestionSet.listofQuizQuestions.get(questionNumber).correctAnswer)) {
+				correctAnswers++;
 				alertBox.quizAnswerMessage("Correct!", "Correct answer, Well done!");
 			} else {
 				alertBox.quizAnswerMessage("Wrong!", "Wrong answer!");	
@@ -87,6 +92,7 @@ public class PlayQuiz {
 		
 		btn2.setOnAction(e -> {
 			if(btn2.getText().equals(AddQuestionSet.listofQuizQuestions.get(questionNumber).correctAnswer)) {
+				correctAnswers++;
 				alertBox.quizAnswerMessage("Correct!", "Correct answer, Well done!");
 			} else {
 				alertBox.quizAnswerMessage("Wrong!", "Wrong answer!");	
@@ -95,6 +101,7 @@ public class PlayQuiz {
 		
 		btn3.setOnAction(e -> {
 			if(btn3.getText().equals(AddQuestionSet.listofQuizQuestions.get(questionNumber).correctAnswer)) {
+				correctAnswers++;
 				alertBox.quizAnswerMessage("Correct!", "Correct answer, Well done!");
 			} else {
 				alertBox.quizAnswerMessage("Wrong!", "Wrong answer!");	
@@ -103,6 +110,7 @@ public class PlayQuiz {
 		
 		btn4.setOnAction(e -> {
 			if(btn4.getText().equals(AddQuestionSet.listofQuizQuestions.get(questionNumber).correctAnswer)) {
+				correctAnswers++;
 				alertBox.quizAnswerMessage("Correct!", "Correct answer, Well done!");
 			} else {
 				alertBox.quizAnswerMessage("Wrong!", "Wrong answer!");	
@@ -110,7 +118,6 @@ public class PlayQuiz {
 		});
 		
 		rootNode.getChildren().addAll(question, root);
-
         window.setScene(scene);
 		window.show();
 	}

@@ -1,3 +1,4 @@
+import javafx.scene.image.ImageView;
 
 public class QuizQuestionPOJO {
 	
@@ -7,6 +8,11 @@ public class QuizQuestionPOJO {
 	String answerB;
 	String answerC;
 	String correctAnswer;
+	ImageView answerAImage;
+	ImageView answerBImage;
+	ImageView answerCImage;
+	ImageView answerDImage;
+
 	
 	public String getQuestionTopic() {
 		return questionTopic;
@@ -43,5 +49,29 @@ public class QuizQuestionPOJO {
 	}
 	public void setCorrectAnswer(String correctAnswer) {
 		this.correctAnswer = correctAnswer;
+	}
+	public ImageView getAnswerAImage() {
+		return answerAImage;
+	}
+	public void setAnswerAImage(ImageView answerAImage) {
+		this.answerAImage = answerAImage;
+	}
+	public ImageView getAnswerBImage() {
+		return answerBImage;
+	}
+	public void setAnswerBImage(ImageView answerBImage) {
+		this.answerBImage = answerBImage;
+	}
+	public ImageView getAnswerCImage() {
+		return answerCImage;
+	}
+	public void setAnswerCImage(ImageView answerCImage) {
+		this.answerCImage = answerCImage;
+	}
+	public ImageView getAnswerDImage() {
+		return answerDImage;
+	}
+	public void setAnswerDImage(ImageView answerDImage) {
+		this.answerDImage = answerDImage;
 	}
 }

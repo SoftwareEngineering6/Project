@@ -29,7 +29,6 @@ public class alertBox {
 	public static void quizAnswerMessage(String title, String message) {
 		Stage window = new Stage();
 		window.initModality(Modality.APPLICATION_MODAL); // prevents user interacting with page behind alert box
-		window.setTitle(title);
 		window.setMinWidth(250);
 		VBox layout = new VBox(20);
 		layout.setAlignment(Pos.CENTER);
@@ -39,13 +38,27 @@ public class alertBox {
 		Button closeButton = new Button("Return");
 		
 		if(PlayQuiz.questionNumber==9) {
-			label1.setText(message);
-			label2.setText("You have finished the quiz");
-			layout.getChildren().addAll(label1,label2);
+			Stopwatch.playerElapsedTime = Stopwatch.elapsedTime();	// records how long player took on the quiz
+			if(PlayQuiz.correctAnswers == 10) {
+				label2.setText("Perfect Score\nYou scored " + PlayQuiz.correctAnswers + " out of 10!");
+			} else if (PlayQuiz.correctAnswers < 10 && PlayQuiz.correctAnswers > 5) {
+				label2.setText("Congratulations\nYou scored " + PlayQuiz.correctAnswers + " out of 10!");
+			} else {
+				label2.setText("Keep trying\nYou scored " + PlayQuiz.correctAnswers + " out of 10!");
+			}
+			layout.getChildren().addAll(label1,label2,closeButton);
 			PlayQuiz.questionNumber = 0;	// reset for next user
-			// add bit for score
+			Main.choiceBox.getSelectionModel().getSelectedItem().setQuizScore(PlayQuiz.correctAnswers);
+			Main.choiceBox.getSelectionModel().getSelectedItem().setTimeTaken(Stopwatch.playerElapsedTime);
+			Main.choiceBox.getSelectionModel().getSelectedItem().setSkippedQuestions(PlayQuiz.skippedAnswers);
+			// Above code adds data for school into array lists
+			closeButton.setOnAction(e -> {
+				window.close();
+				PlayQuiz.window.close();
+			});
 		} else {
 			label1.setText(message);
+			window.setTitle(title);
 			closeButton.setOnAction(e -> {
 				PlayQuiz.questionNumber++;
 				window.close();

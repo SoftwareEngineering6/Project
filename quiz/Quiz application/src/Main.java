@@ -44,6 +44,7 @@ public class Main extends Application {
 	    			alertBox.noDetails("", "Add full set of questions first");
 	    		} else {
 	    			PlayQuiz.display();
+	    			Stopwatch.StopwatchStart();
 	    		}
 	    });
     

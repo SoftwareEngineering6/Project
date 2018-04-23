@@ -51,6 +51,7 @@ public class alertBox {
 			Main.choiceBox.getSelectionModel().getSelectedItem().setQuizScore(PlayQuiz.correctAnswers);
 			Main.choiceBox.getSelectionModel().getSelectedItem().setTimeTaken(Stopwatch.playerElapsedTime);
 			Main.choiceBox.getSelectionModel().getSelectedItem().setSkippedQuestions(PlayQuiz.skippedAnswers);
+			PlayQuiz.correctAnswers = 0;
 			// Above code adds data for school into array lists
 			closeButton.setOnAction(e -> {
 				window.close();

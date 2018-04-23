@@ -63,6 +63,12 @@ public class AddQuestionSet {
     TextField answerBField = new TextField();
     TextField answerCField = new TextField();
     TextField correctAnswerField = new TextField();
+    questionTopicField.setPadding(new Insets(10));
+    actualQuestionField.setPadding(new Insets(10));
+    answerAField.setPadding(new Insets(10));
+    answerBField.setPadding(new Insets(10));
+    answerCField.setPadding(new Insets(10));
+    correctAnswerField.setPadding(new Insets(10));
     
     Button answerAImageButton = new Button();
     answerAImageButton.setOnAction(e-> {
@@ -82,9 +88,11 @@ public class AddQuestionSet {
     });
     
     Button returnButt = new Button("Return");
+    returnButt.setStyle("-fx-font: 16 arial;");
     returnButt.setOnAction(e -> window.close());
     
     Button saveButt = new Button("Save");
+    saveButt.setStyle("-fx-font: 16 arial;");
     saveButt.setOnAction(e ->{
     		if(answerAField.getText().isEmpty() || answerBField.getText().isEmpty() 
     				|| answerCField.getText().isEmpty() || correctAnswerField.getText().isEmpty()

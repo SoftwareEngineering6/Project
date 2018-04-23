@@ -9,6 +9,10 @@ import javafx.collections.*;
 import javafx.event.*; 
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.scene.text.Font;
+import javafx.scene.paint.Color;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.text.FontWeight;
 
 public class Main extends Application {
 
@@ -26,17 +30,34 @@ public class Main extends Application {
     		BuildTestData.testDataCreator(AddQuestionSet.listofQuizQuestions);
     		 
     		myStage.setTitle("Main Page"); 
+    		
+    		choiceBox.setStyle("-fx-background-color: #D3D3D3;");
+    		choiceBox.setPadding(new Insets(8, 120, 0, 8));
+
+		DropShadow titleShadow = new DropShadow();
+		titleShadow.setOffsetX(2.0f);
+		titleShadow.setOffsetY(2.0f);
 
 		Text pageTitle = new Text();
 		pageTitle.setText("Welcome");
-		pageTitle.setStyle("-fx-font: 26 arial;");
+		
+		pageTitle.setEffect(titleShadow);
+		pageTitle.setCache(true);
+		pageTitle.setX(20);
+		pageTitle.setY(100);
+		pageTitle.setFont(Font.font(null, FontWeight.BOLD, 50));
+		pageTitle.setFill(Color.BLACK);
 
 		Button adminButton = new Button();
 		adminButton.setText("Admin");
+		adminButton.setStyle("-fx-background-color: #D3D3D3;");
+		adminButton.setStyle("-fx-font: 16 arial;");
 		adminButton.setOnAction(e -> engagement());
 
 	    Button playQuizButton = new Button();
 	    playQuizButton.setText("Start the QUIZ!");
+	    playQuizButton.setStyle("-fx-background-color: #D3D3D3;");
+	    playQuizButton.setStyle("-fx-font: 22 arial;");
 	    playQuizButton.setOnAction(e ->{
 	    		if (choiceBox.getValue() == null) {
 	    			alertBox.noDetails("empty", "Select your school");;
@@ -84,6 +105,16 @@ public class Main extends Application {
         Button button2 = new Button ("Set Questions");
         Button button3 = new Button ("Statistics");
         Button button4 = new Button ("Return");
+
+        button1.setPadding(new Insets(10, 30, 10, 30));
+        button2.setPadding(new Insets(10, 30, 10, 30));
+        button3.setPadding(new Insets(10, 30, 10, 30));
+        button4.setPadding(new Insets(10, 30, 10, 30));
+
+        button1.setStyle("-fx-font: 20 arial;");
+        button2.setStyle("-fx-font: 20 arial;");
+        button3.setStyle("-fx-font: 20 arial;");
+        button4.setStyle("-fx-font: 16 arial;");
 
         button1.setOnAction(e ->schoolAdder());
         button2.setOnAction(e -> AddQuestionSet.display());
@@ -150,6 +181,7 @@ public class Main extends Application {
 		});
 
 		Button closeButton = new Button("Return");
+		closeButton.setStyle("-fx-font: 16 arial;");
 		closeButton.setOnAction(e -> window.close());
 				
 		// page layout

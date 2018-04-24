@@ -2,6 +2,7 @@ import javafx.application.*;
 import javafx.stage.*;
 import javafx.util.StringConverter;
 import javafx.scene.*;
+import javafx.scene.chart.BarChart;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
@@ -114,7 +115,7 @@ public class Main extends Application {
 
         button1.setOnAction(e ->schoolAdder());
         button2.setOnAction(e -> AddQuestionSet.display());
-        // button3.setOnAction(e -> );
+        button3.setOnAction(e -> statsPage());
         button4.setOnAction(e -> window.close());
 
         //testing for layout
@@ -143,6 +144,73 @@ public class Main extends Application {
         window.setTitle("Engagement Team Page");
         window.show();
     }
+    
+    public static void statsPage() {
+        Stage window = new Stage();
+        window.setTitle("Page title");
+        Label pageTitle = new Label("Statistics");
+
+        Button viewButton = new Button("View Statistics");
+        viewButton.setOnAction(e -> viewStats());
+
+        Button downloadButton = new Button("Download Statistics");
+        downloadButton.setOnAction(e -> writeToCsv.download());
+
+        Button closeButton = new Button("Return");
+        closeButton.setOnAction(e -> window.close());
+
+        HBox title = new HBox();
+        title.setAlignment(Pos.CENTER);
+        title.getChildren().addAll(pageTitle);
+
+        VBox functionButtons = new VBox(10);
+        functionButtons.setAlignment(Pos.CENTER);
+        functionButtons.getChildren().addAll(viewButton, downloadButton, closeButton);
+
+        BorderPane statsBorderpane = new BorderPane();
+        statsBorderpane.setTop(title);
+        statsBorderpane.setCenter(functionButtons);
+        statsBorderpane.setPadding(new Insets(20,20,20,20));
+
+        Scene scene = new Scene(statsBorderpane, 300,300);
+        window.setScene(scene);
+        window.show();
+      }
+
+      public static void viewStats() {
+        Stage window = new Stage();
+        window.setTitle("Page title");
+        Label pageTitle = new Label("Statistics");
+
+        BarChart<String,Number> scores = statsGraphs.viewScores();
+        BarChart<String,Number> times = statsGraphs.viewTime();
+        BarChart<String,Number> skipped = statsGraphs.viewSkipped();
+
+        Button closeButton = new Button("Return");
+        closeButton.setOnAction(e -> window.close());
+
+        HBox title = new HBox();
+        title.setAlignment(Pos.CENTER);
+        title.getChildren().addAll(pageTitle);
+
+        VBox graphs = new VBox(10);
+        graphs.setAlignment(Pos.CENTER);
+        graphs.getChildren().addAll(scores, times, skipped);
+
+        HBox functionButtons = new HBox(20);
+        functionButtons.setAlignment(Pos.BOTTOM_RIGHT);
+        functionButtons.getChildren().addAll(closeButton);
+
+        BorderPane graphsBorderpane = new BorderPane();
+        graphsBorderpane.setTop(title);
+        graphsBorderpane.setCenter(graphs);
+        graphsBorderpane.setBottom(functionButtons);
+        graphsBorderpane.setPadding(new Insets(20, 20, 20, 20));
+
+        Scene scene = new Scene(graphsBorderpane, 600, 600);
+        window.setScene(scene);
+        window.show();
+      }
     
     public static void schoolAdder() {
 		Stage window = new Stage();

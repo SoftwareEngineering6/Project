@@ -4,9 +4,9 @@ import java.util.List;
 public class school {
 	String schoolName;
 	int studentAges; 
-	List<Double> timeTaken = new ArrayList<Double>();
-	List<Integer> quizScore = new ArrayList<Integer>();
-	List<Integer> skippedQuestions = new ArrayList<Integer>();
+	static List<Double> timeTaken = new ArrayList<Double>();
+	static List<Integer> quizScore = new ArrayList<Integer>();
+	static List<Integer> skippedQuestions = new ArrayList<Integer>();
 	int numberOfPlayers = quizScore.size();	// Will show how many people have taken quiz from school
 	
 	public school(String schoolName, int studentAges) {

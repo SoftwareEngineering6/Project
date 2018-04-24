@@ -28,7 +28,7 @@ public class writeToCsv {
         w.append(NEW_LINE_SEPERATOR);
       }
       w.close();
-      alertBox.noDetails("Download", "Download Complete!");
+      alertBox.noDetails("Download Complete!");
 
     } catch(IOException e) {
       e.printStackTrace();

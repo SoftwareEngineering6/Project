@@ -11,7 +11,7 @@ public class statsGraphs {
 	for(int x=0; x < a.getQuizScore().size();x++) {
 		score.add(a.getQuizScore().get(x));
 	}
-	
+
     final CategoryAxis xAxis = new CategoryAxis();
     final NumberAxis yAxis = new NumberAxis();
     final BarChart<String,Number> scoreB = new BarChart<>(xAxis, yAxis);
@@ -27,6 +27,13 @@ public class statsGraphs {
     for (int i = 0; i < score.size(); i++) {
       series.getData().add(new XYChart.Data(String.valueOf(i+1), score.get(i)));
     }
+
+    Integer sum = 0;
+    for (Integer sc: score) {
+      sum += sc;
+    }
+    double aveScore = sum.doubleValue() / score.size();
+    series.getData().add(new XYChart.Data("Average", aveScore));
 
     scoreB.getData().add(series);
     return scoreB;
@@ -53,6 +60,13 @@ public class statsGraphs {
       series.getData().add(new XYChart.Data(String.valueOf(i+1), (time.get(i)/1000)));
     }
 
+    double sum = 0;
+    for (double t: time) {
+      sum += t;
+    }
+    double aveTime = sum / time.size();
+    series.getData().add(new XYChart.Data("Average", aveTime));
+
     timeB.getData().add(series);
     return timeB;
   }
@@ -77,6 +91,13 @@ public class statsGraphs {
     for (int i = 0; i < skip.size(); i++) {
       series.getData().add(new XYChart.Data(String.valueOf(i+1), skip.get(i)));
     }
+
+    Integer sum = 0;
+    for (Integer s: skip) {
+      sum += s;
+    }
+    double aveSkip = sum.doubleValue() / skip.size();
+    series.getData().add(new XYChart.Data("Average", aveSkip));
 
     skipB.getData().add(series);
     return skipB;

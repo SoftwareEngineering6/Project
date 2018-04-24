@@ -9,9 +9,9 @@ import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
-import javafx.geometry.*; 
-import javafx.collections.*; 
-import javafx.event.*; 
+import javafx.geometry.*;
+import javafx.collections.*;
+import javafx.event.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -24,15 +24,15 @@ public class Main extends Application {
     static ChoiceBox<school> choiceBox = new ChoiceBox<school>();		// choicebox to choose school
     static ChoiceBox<school> statsChoiceBox = new ChoiceBox<school>();
 
-    	public static void main(String[] args) { 
-    		launch(args);   
-    	} 
- 
+    	public static void main(String[] args) {
+    		launch(args);
+    	}
+
     	public void start(Stage myStage) {
     		BuildTestData.testDataCreator(AddQuestionSet.listofQuizQuestions);
     		DropShadow shadow = new DropShadow();
-    		 
-    		myStage.setTitle("Main Page"); 
+
+    		myStage.setTitle("Main Page");
 
 		Label pageTitle = new Label("Welcome");
 		pageTitle.setId("page-titles");
@@ -55,30 +55,30 @@ public class Main extends Application {
 	    			Stopwatch.StopwatchStart();
 	    		}
 	    });
-    
+
 		HBox titleBar = new HBox();
 		titleBar.setAlignment(Pos.CENTER);
 		titleBar.getChildren().add(pageTitle);
-		
+
 		HBox bottomBar = new HBox();
 		bottomBar.setAlignment(Pos.BOTTOM_RIGHT);
 		bottomBar.getChildren().add(adminButton);
-		
+
 		VBox options = new VBox(20);
 		options.setAlignment(Pos.CENTER);
 		options.getChildren().addAll(playQuizButton, choiceBox);
-		
+
 		BorderPane borderpane = new BorderPane();
 		borderpane.getStyleClass().add("main-page-borderpane");
 		borderpane.setTop(titleBar);
 		borderpane.setCenter(options);
 		borderpane.setBottom(bottomBar);
 		borderpane.setPadding(new Insets(20,20,20,20));
-		
+
 		borderpane.getStyleClass().add("mainpage");
-		Scene myScene = new Scene(borderpane, 700, 500); 
+		Scene myScene = new Scene(borderpane, 700, 500);
 		myScene.getStylesheets().add("NewFile.css");
-		
+
 		playQuizButton.addEventHandler(MouseEvent.MOUSE_ENTERED,
 	            new EventHandler<MouseEvent>() {
 	              @Override
@@ -96,17 +96,17 @@ public class Main extends Application {
 	              }
 	            });
 		myStage.setScene(myScene);
-		myStage.show(); 
-    	} 
-    
-  
+		myStage.show();
+    	}
+
+
     public void engagement() {
 		Stage window = new Stage();
 
         //Button 1
         Label label1 = new Label("Engagement Team");
 		label1.setId("page-titles");
-	    
+
         Button button1 = new Button ("Add Schools");
         button1.getStyleClass().add("engagement-buttons");
         Button button2 = new Button ("Set Questions");
@@ -131,32 +131,32 @@ public class Main extends Application {
         HBox titleBar = new HBox();
         titleBar.setAlignment(Pos.CENTER);
         titleBar.getChildren().add(label1);
-        
+
         HBox bottomBar = new HBox();
         bottomBar.setAlignment(Pos.BOTTOM_LEFT);
         bottomBar.getChildren().add(button4);
-        
+
         VBox optionButtons = new VBox(20);
         optionButtons.setAlignment(Pos.CENTER);
         optionButtons.getChildren().addAll(button1,button2,button3);
-        
+
         BorderPane borderpane = new BorderPane();
         borderpane.getStyleClass().add("engagement-borderpane");
         borderpane.setTop(titleBar);
         borderpane.setCenter(optionButtons);
         borderpane.setBottom(bottomBar);
         borderpane.setPadding(new Insets(20,20,20,20));
-                
+
         scene1 = new Scene(borderpane, 700, 500);
         scene1.getStylesheets().add("NewFile.css");
         window.setScene(scene1);
         window.setTitle("Engagement Team Page");
         window.show();
     }
-    
+
     public static void statsPage() {
         Stage window = new Stage();
-        window.setTitle("Page title");
+        window.setTitle("Statistics");
         Label pageTitle = new Label("Statistics");
 
         Button viewButton = new Button("View Statistics");
@@ -214,7 +214,7 @@ public class Main extends Application {
         graphsBorderpane.setCenter(graphs);
         graphsBorderpane.setBottom(functionButtons);
         graphsBorderpane.setPadding(new Insets(20));
-        
+
         statsChoiceBox.valueProperty().addListener(new ChangeListener<school>() {
 	        @Override public void changed(ObservableValue ov, school t, school t1) {
 	        	graphs.getChildren().remove(2);
@@ -226,16 +226,16 @@ public class Main extends Application {
 	        }
 	      });
 
-        Scene scene = new Scene(graphsBorderpane, 600, 600);
+        Scene scene = new Scene(graphsBorderpane, 1000, 1000);
         window.setScene(scene);
         window.show();
       }
-    
+
     public static void schoolAdder() {
 		Stage window = new Stage();
 		Label pageTitle = new Label("Add school details");
 		pageTitle.setId("page-titles");
-		
+
 		Label nameLabel = new Label("School name:");
 		TextField nameInput = new TextField();
 		nameInput.setMaxWidth(200);
@@ -246,12 +246,12 @@ public class Main extends Application {
 		passInput.setPromptText("Enter year group");
 		Button addSchoolButton = new Button("Add school");
 		addSchoolButton.getStyleClass().add("navigation-buttons");
-		
+
 		addSchoolButton.setOnAction(e -> {
 			try {
 				if (i >= 5) {
-					alertBox.noDetails("Cannot add any more schools");	
-				} else {	
+					alertBox.noDetails("Cannot add any more schools");
+				} else {
 					int age = Integer.parseInt(passInput.getText());
 					schoolList[i] = new school(nameInput.getText(),age);
 					choiceBox.getItems().add(schoolList[i]);
@@ -259,7 +259,7 @@ public class Main extends Application {
 					i ++;
 					passInput.setText("");
 					nameInput.setText("");
-					alertBox.noDetails("School details added to quiz");	
+					alertBox.noDetails("School details added to quiz");
 				}
 			} catch (NumberFormatException a) {
 				alertBox.noDetails("No details input");
@@ -269,20 +269,20 @@ public class Main extends Application {
 		Button closeButton = new Button("Return");
 		closeButton.getStyleClass().add("navigation-buttons");
 		closeButton.setOnAction(e -> window.close());
-				
+
 		// page layout
 		HBox title = new HBox();
         title.setAlignment(Pos.CENTER);
         title.getChildren().addAll(pageTitle);
-		
+
 		VBox labels = new VBox(10);
         labels.setAlignment(Pos.CENTER);
         labels.getChildren().addAll(nameLabel, nameInput, passLabel, passInput);
-        
+
         HBox functionButtons = new HBox(20);
         functionButtons.setAlignment(Pos.BOTTOM_CENTER);
         functionButtons.getChildren().addAll(closeButton,AddQuestionSet.createSpacer(),addSchoolButton);
-        
+
         BorderPane schoolBorderpane = new BorderPane();
         schoolBorderpane.getStyleClass().add("school-adder-borderpane");
         schoolBorderpane.setTop(title);
@@ -290,7 +290,7 @@ public class Main extends Application {
         schoolBorderpane.setCenter(labels);
         schoolBorderpane.setPadding(new Insets(20,20,20,20));
 		//
-        
+
         // Ensures choiceBox will display name of the school whilst still pointing to memory location
         // of the school object, rather than a string
 		choiceBox.setConverter(new StringConverter<school>() {
@@ -315,7 +315,7 @@ public class Main extends Application {
 		        return null ;
 		    }
 		});
-		
+
 		Scene scene = new Scene(schoolBorderpane, 400,400);
         scene.getStylesheets().add("NewFile.css");
 		window.setScene(scene);

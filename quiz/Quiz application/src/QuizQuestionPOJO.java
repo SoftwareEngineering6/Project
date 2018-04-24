@@ -2,6 +2,7 @@ import javafx.scene.image.ImageView;
 
 public class QuizQuestionPOJO {
 	
+	String textOrImage;
 	String questionTopic;
 	String question;
 	String answerA;
@@ -11,7 +12,7 @@ public class QuizQuestionPOJO {
 	ImageView answerAImage;
 	ImageView answerBImage;
 	ImageView answerCImage;
-	ImageView answerDImage;
+	ImageView correctImage;
 
 	
 	public String getQuestionTopic() {
@@ -68,10 +69,16 @@ public class QuizQuestionPOJO {
 	public void setAnswerCImage(ImageView answerCImage) {
 		this.answerCImage = answerCImage;
 	}
-	public ImageView getAnswerDImage() {
-		return answerDImage;
+	public ImageView getcorrectImage() {
+		return correctImage;
 	}
-	public void setAnswerDImage(ImageView answerDImage) {
-		this.answerDImage = answerDImage;
+	public void setcorrectImage(ImageView answerDImage) {
+		this.correctImage = answerDImage;
+	}
+	public String getTextOrImage() {
+		return textOrImage;
+	}
+	public void setTextOrImage(String textOrImage) {
+		this.textOrImage = textOrImage;
 	}
 }

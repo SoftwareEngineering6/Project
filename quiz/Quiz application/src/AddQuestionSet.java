@@ -1,18 +1,17 @@
 import java.io.File;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.imageio.ImageIO;
-
-import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,7 +20,8 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -30,168 +30,288 @@ public class AddQuestionSet {
 	static int counter = 0;
 	static Stage window = new Stage();
 	
-	public static List<QuizQuestionPOJO> display() {
+	public static void display() {
+		ImageView[] imageList = new ImageView[4];
+		imageList[0] = new ImageView();
+		imageList[1] = new ImageView();
+		imageList[2] = new ImageView();
+		imageList[3] = new ImageView();
+		for(ImageView a:imageList) {
+			a.setFitWidth(200);
+			a.setPreserveRatio(true);
+			a.setSmooth(true);
+			a.setCache(true);
+		}
 		
-		
-		
-	ImageView answerAImg = new ImageView();
-	ImageView answerBImg = new ImageView();
-	ImageView answerCImg = new ImageView();
-	ImageView answerDImg = new ImageView();
-	BorderPane root = new BorderPane();
-    Scene scene = new Scene(root, 500, 500, Color.WHITE);
-
-    GridPane gridpane = new GridPane();
-    gridpane.setPadding(new Insets(5));
-    gridpane.setHgap(5);
-    gridpane.setVgap(5);
-    ColumnConstraints column1 = new ColumnConstraints(150);
-    ColumnConstraints column2 = new ColumnConstraints(50, 150, 300);
-    column2.setHgrow(Priority.ALWAYS);
-    gridpane.getColumnConstraints().addAll(column1, column2);
-
-    Label questionTopic = new Label("Enter question topic");
-    Label actualQuestion = new Label("Enter the question");
-    Label answerA = new Label("Answer A");
-    Label answerB = new Label("Answer B");
-    Label answerC = new Label("Answer C");
-    Label correctAnswer = new Label("Correct Answer");
-
-    TextField questionTopicField = new TextField();
-    TextField actualQuestionField = new TextField();
-    TextField answerAField = new TextField();
-    TextField answerBField = new TextField();
-    TextField answerCField = new TextField();
-    TextField correctAnswerField = new TextField();
-    questionTopicField.setPadding(new Insets(10));
-    actualQuestionField.setPadding(new Insets(10));
-    answerAField.setPadding(new Insets(10));
-    answerBField.setPadding(new Insets(10));
-    answerCField.setPadding(new Insets(10));
-    correctAnswerField.setPadding(new Insets(10));
-    
-    Button answerAImageButton = new Button();
-    answerAImageButton.setOnAction(e-> {
-    		imageButtonAction(answerAImg);
-    });
-    Button answerBImageButton = new Button();
-    answerBImageButton.setOnAction(e-> {
-    		imageButtonAction(answerBImg);
-    });
-    Button answerCImageButton = new Button();
-    answerCImageButton.setOnAction(e-> {
-    		imageButtonAction(answerCImg);
-    });
-    Button answerDImageButton = new Button();
-    answerDImageButton.setOnAction(e-> {
-    		imageButtonAction(answerDImg);
-    });
-    
-    Button returnButt = new Button("Return");
-    returnButt.setStyle("-fx-font: 16 arial;");
-    returnButt.setOnAction(e -> window.close());
-    
-    Button saveButt = new Button("Save");
-    saveButt.setStyle("-fx-font: 16 arial;");
-    saveButt.setOnAction(e ->{
-    		if(answerAField.getText().isEmpty() || answerBField.getText().isEmpty() 
-    				|| answerCField.getText().isEmpty() || correctAnswerField.getText().isEmpty()
-    				|| questionTopicField.getText().isEmpty() || actualQuestionField.getText().isEmpty()) {
-    			alertBox.noDetails("Incomplete", "Please enter all details");
-    		} else if(counter != 9) {
-			QuizQuestionPOJO quizQuestionPOJO = new QuizQuestionPOJO();
-    			quizQuestionPOJO.setQuestionTopic(questionTopicField.getText());
-    			quizQuestionPOJO.setQuestion(actualQuestionField.getText());
-    			quizQuestionPOJO.setAnswerA(answerAField.getText());
-    			quizQuestionPOJO.setAnswerB(answerBField.getText());
-    			quizQuestionPOJO.setAnswerC(answerCField.getText());
-    			quizQuestionPOJO.setCorrectAnswer(correctAnswerField.getText());
-    			listofQuizQuestions.add(quizQuestionPOJO);
-    			actualQuestionField.clear();
-    			answerAField.clear();
-    			answerBField.clear();
-    			answerCField.clear();
-    			correctAnswerField.clear();
-    			alertBox.noDetails("Successful", "Question added");
-    			counter++;
+	    Label questionTopic = new Label("Enter question topic");
+	    Label actualQuestion = new Label("Enter the question:");
+	    Label answerATextLabel = new Label("Answer A:");
+	    Label answerBTextLabel = new Label("Answer B:");
+	    Label answerCTextLabel = new Label("Answer C:");
+	    Label correctAnswerTextLabel = new Label("Correct Answer:");
+	    
+	    Label answerAImageLabel = new Label("Answer A:");
+	    Label answerBImageLabel = new Label("Answer B:");
+	    Label answerCImageLabel = new Label("Answer C:");
+	    Label correctAnswerImageLabel = new Label("Correct Answer:");
+	
+	    TextField questionTopicField = new TextField();
+	    TextField actualQuestionField = new TextField();
+	    TextField answerAField = new TextField();
+	    TextField answerBField = new TextField();
+	    TextField answerCField = new TextField();
+	    TextField correctAnswerField = new TextField();
+	    
+	    Button answerAImageButton = new Button("Add image");
+	    answerAImageButton.getStyleClass().add("image-adder-button");
+	    answerAImageButton.setOnAction(e-> {
+	    		imageButtonAction(imageList[0],answerAImageButton);
+	    });
+	    Button answerBImageButton = new Button("Add image");
+	    answerBImageButton.getStyleClass().add("image-adder-button");
+	    answerBImageButton.setOnAction(e-> {
+	    		imageButtonAction(imageList[1],answerBImageButton);
+	    });
+	    Button answerCImageButton = new Button("Add image");
+	    answerCImageButton.getStyleClass().add("image-adder-button");
+	    answerCImageButton.setOnAction(e-> {
+	    		imageButtonAction(imageList[2],answerCImageButton);
+	    });
+	    Button correctAnswerImageButton = new Button("Add image");
+	    correctAnswerImageButton.getStyleClass().add("image-adder-button");
+	    correctAnswerImageButton.setOnAction(e-> {
+	    		imageButtonAction(imageList[3],correctAnswerImageButton);
+	    });
+	    
+	    Button returnButtText = new Button("Cancel");
+	    returnButtText.getStyleClass().add("navigation-buttons");
+	    Button returnButtImage = new Button("Cancel");
+	    returnButtImage.getStyleClass().add("navigation-buttons");
+	    returnButtText.setOnAction(e -> window.close());
+	    returnButtImage.setOnAction(e -> window.close());
+	    
+	    Button saveButtText = new Button("Save");
+	    saveButtText.getStyleClass().add("navigation-buttons");
+	    Button saveButtImage = new Button("Save");
+	    saveButtImage.getStyleClass().add("navigation-buttons");
+	
+	    saveButtText.setOnAction(e ->{
+	    		if(answerAField.getText().isEmpty() || answerBField.getText().isEmpty() 
+	    				|| answerCField.getText().isEmpty() || correctAnswerField.getText().isEmpty()
+	    				|| actualQuestionField.getText().isEmpty()) {
+	    			alertBox.noDetails( "Please enter all details");
+	    		} else if(counter != 9) {
+	    			createTextQuestion(actualQuestionField, answerAField, answerBField, answerCField, correctAnswerField);
+	    			alertBox.noDetails("Text question added");
+	    			counter++;
 			} else {
-    			alertBox.noDetails("10 Added", "10 Questions added");
+				createTextQuestion(actualQuestionField, answerAField, answerBField, answerCField, correctAnswerField);
+	    			alertBox.noDetails("10 Questions added");
+	    			window.close();
+				}
+	    });
+	    
+	    saveButtImage.setOnAction(e ->{
+			if(imageList[0].getImage() == null || imageList[1].getImage() == null || imageList[2].getImage() == null
+					|| imageList[3].getImage() == null ||actualQuestionField.getText().isEmpty()) {
+				alertBox.noDetails("Please add all images");
+			} else if(counter != 9) {
+				createImageQuestion(actualQuestionField, imageList[0], imageList[1], imageList[2], imageList[3]);
+				alertBox.noDetails("Image question added");
+				counter++;
+			} else {
+				createImageQuestion(actualQuestionField, imageList[0], imageList[1], imageList[2], imageList[3]);
+				alertBox.noDetails("10 Questions added");
+				window.close();
 			}
-    });
-    
-    // Text labels for entry fields
-    GridPane.setHalignment(questionTopic, HPos.RIGHT);
-    gridpane.add(questionTopic, 0, 0);
-    GridPane.setHalignment(actualQuestion, HPos.RIGHT);
-    gridpane.add(actualQuestion, 0, 1);
-    GridPane.setHalignment(answerA, HPos.RIGHT);
-    gridpane.add(answerA, 0, 2);
-    GridPane.setHalignment(answerB, HPos.RIGHT);
-    gridpane.add(answerB, 0, 3);
-    GridPane.setHalignment(answerC, HPos.RIGHT);
-    gridpane.add(answerC, 0, 4);
-    GridPane.setHalignment(correctAnswer, HPos.RIGHT);
-    gridpane.add(correctAnswer, 0, 5);
-
-    // Text entry fields
-    GridPane.setHalignment(questionTopicField, HPos.LEFT);
-    gridpane.add(questionTopicField, 1, 0);
-    GridPane.setHalignment(actualQuestionField, HPos.LEFT);
-    gridpane.add(actualQuestionField, 1, 1);
-    GridPane.setHalignment(answerAField, HPos.LEFT);
-    gridpane.add(answerAField, 1, 2);
-    GridPane.setHalignment(answerBField, HPos.LEFT);
-    gridpane.add(answerBField, 1, 3);
-    GridPane.setHalignment(answerCField, HPos.LEFT);
-    gridpane.add(answerCField, 1, 4);
-    GridPane.setHalignment(correctAnswerField, HPos.LEFT);
-    gridpane.add(correctAnswerField, 1, 5);
-
-    // Save button
-    GridPane.setHalignment(saveButt, HPos.RIGHT);
-    gridpane.add(saveButt, 1, 6);
-    GridPane.setHalignment(returnButt, HPos.RIGHT);
-    gridpane.add(returnButt, 0, 6);
-    
-    
-    HBox titleBox = new HBox();
-	Label titleLabel = new Label("Add Questions");
-	titleBox.setAlignment(Pos.CENTER);
-	titleBox.getChildren().add(titleLabel);
+	    });
 	
-	HBox questionsetterBox = new HBox();
-	questionsetterBox.setAlignment(Pos.CENTER);
-	GridPane questionGrid = new GridPane();
-    GridPane.setHalignment(actualQuestion, HPos.RIGHT);
-    questionGrid.add(actualQuestion, 0, 0);
-    GridPane.setHalignment(actualQuestionField, HPos.LEFT);
-    questionGrid.add(actualQuestionField, 1, 0);
-	questionsetterBox.getChildren().add(questionGrid);
+	    HBox titleBox = new HBox();
+		Label titleLabel = new Label("Add Questions");
+		titleLabel.setId("page-titles");
+		titleBox.setAlignment(Pos.CENTER);
+		titleBox.getChildren().add(titleLabel);
+		
+		HBox questionSetterBox = new HBox();
+		questionSetterBox.setAlignment(Pos.CENTER);
+		GridPane questionGrid = new GridPane();
+	    GridPane.setHalignment(actualQuestion, HPos.RIGHT);
+	    questionGrid.add(actualQuestion, 0, 0);
+	    GridPane.setHalignment(actualQuestionField, HPos.LEFT);
+	    questionGrid.add(actualQuestionField, 1, 0);
+		questionSetterBox.getChildren().add(questionGrid);
+	    ColumnConstraints c1 = new ColumnConstraints(150);
+	    ColumnConstraints c2 = new ColumnConstraints(250);
+	    questionGrid.getColumnConstraints().addAll(c1,c2);
+	    questionGrid.setPadding(new Insets(30));
+	    questionGrid.setHgap(20);
+		
+		TabPane tabpane = new TabPane();
+		tabpane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
+		Tab tab1 = new Tab("Add a text question");
+		tab1.setOnSelectionChanged(e->{
+			imageList[0].setImage(null);
+			imageList[1].setImage(null);
+			imageList[2].setImage(null);
+			imageList[3].setImage(null);
+		});
+		Tab tab2 = new Tab("Add an image question");
+		tab2.setOnSelectionChanged(e->{
+			answerAField.clear();
+			answerBField.clear();
+			answerCField.clear();
+			correctAnswerField.clear();
+		});
+		tabpane.getTabs().addAll(tab1,tab2);
+		
+		GridPane textQuestionGrid = new GridPane();
+		GridPane.setHalignment(answerATextLabel, HPos.RIGHT);
+		textQuestionGrid.add(answerATextLabel, 0, 0);
+	    GridPane.setHalignment(answerBTextLabel, HPos.RIGHT);
+	    textQuestionGrid.add(answerBTextLabel, 0, 1);
+	    GridPane.setHalignment(answerCTextLabel, HPos.RIGHT);
+	    textQuestionGrid.add(answerCTextLabel, 0, 2);
+	    GridPane.setHalignment(correctAnswerTextLabel, HPos.RIGHT);
+	    textQuestionGrid.add(correctAnswerTextLabel, 0, 3);
+	    GridPane.setHalignment(answerAField, HPos.LEFT);
+	    textQuestionGrid.add(answerAField, 1, 0);
+	    GridPane.setHalignment(answerBField, HPos.LEFT);
+	    textQuestionGrid.add(answerBField, 1, 1);
+	    GridPane.setHalignment(answerCField, HPos.LEFT);
+	    textQuestionGrid.add(answerCField, 1, 2);
+	    GridPane.setHalignment(correctAnswerField, HPos.LEFT);
+	    textQuestionGrid.add(correctAnswerField, 1, 3);
+	    GridPane.setHalignment(saveButtText, HPos.RIGHT);
+	    textQuestionGrid.add(saveButtText, 1, 4);
+	    GridPane.setHalignment(returnButtText, HPos.RIGHT);
+	    textQuestionGrid.add(returnButtText, 0, 4);
+	    
+		GridPane imageQuestionGrid = new GridPane();
+		GridPane.setHalignment(answerAImageLabel, HPos.RIGHT);
+		imageQuestionGrid.add(answerAImageLabel, 0, 0);
+	    GridPane.setHalignment(answerBImageLabel, HPos.RIGHT);
+	    imageQuestionGrid.add(answerBImageLabel, 0, 1);
+	    GridPane.setHalignment(answerCImageLabel, HPos.RIGHT);
+	    imageQuestionGrid.add(answerCImageLabel, 0, 2);
+	    GridPane.setHalignment(correctAnswerImageLabel, HPos.RIGHT);
+	    imageQuestionGrid.add(correctAnswerImageLabel, 0, 3);
+	    GridPane.setHalignment(answerAImageButton, HPos.LEFT);
+	    imageQuestionGrid.add(answerAImageButton, 1, 0);
+	    GridPane.setHalignment(answerBImageButton, HPos.LEFT);
+	    imageQuestionGrid.add(answerBImageButton, 1, 1);
+	    GridPane.setHalignment(answerCImageButton, HPos.LEFT);
+	    imageQuestionGrid.add(answerCImageButton, 1, 2);
+	    GridPane.setHalignment(correctAnswerImageButton, HPos.LEFT);
+	    imageQuestionGrid.add(correctAnswerImageButton, 1, 3);
+	    GridPane.setHalignment(saveButtImage, HPos.RIGHT);
+	    imageQuestionGrid.add(saveButtImage, 1, 4);
+	    GridPane.setHalignment(returnButtImage, HPos.RIGHT);
+	    imageQuestionGrid.add(returnButtImage, 0, 4);
+	    
+	    //ColumnConstraints textQuestionColumn = new ColumnConstraints();
+	    textQuestionGrid.setPadding(new Insets(30));
+	    textQuestionGrid.setHgap(20);
+	    textQuestionGrid.setVgap(15);
+	    imageQuestionGrid.setPadding(new Insets(30));
+	    imageQuestionGrid.setHgap(20);
+	    imageQuestionGrid.setVgap(15);
 	
-	TabPane tabpane = new TabPane();
-	Tab tab1 = new Tab();
-	Tab tab2 = new Tab();
-	tabpane.getTabs().addAll(tab1,tab2);
+	    ColumnConstraints column1 = new ColumnConstraints(150);
+	    ColumnConstraints column2 = new ColumnConstraints(250);
+	
+	    textQuestionGrid.getColumnConstraints().addAll(column1,column2);
+	    imageQuestionGrid.getColumnConstraints().addAll(column1,column2);	
+		
+		HBox buttonBoxText = new HBox();
+		buttonBoxText.setPadding(new Insets(20));
+		
+		HBox buttonBoxImages = new HBox();
+		buttonBoxImages.setPadding(new Insets(20));
+	
+		buttonBoxText.getChildren().addAll(returnButtText,createSpacer(),saveButtText);
+		buttonBoxImages.getChildren().addAll(returnButtImage,createSpacer(),saveButtImage);
 
-    root.setCenter(gridpane);
-    window.setScene(scene);
-    window.show();
-	return listofQuizQuestions;
-  }
+		BorderPane borderpaneText = new BorderPane();
+		borderpaneText.prefHeightProperty().bind(window.heightProperty());
+		borderpaneText.prefWidthProperty().bind(window.widthProperty());
 	
-	public static void imageButtonAction(ImageView iv) {
+		BorderPane borderpaneImages = new BorderPane();
+	
+		textQuestionGrid.setAlignment(Pos.CENTER);
+		borderpaneText.setCenter(textQuestionGrid);
+		borderpaneText.setBottom(buttonBoxText);
+	
+		imageQuestionGrid.setAlignment(Pos.CENTER);
+		borderpaneImages.setCenter(imageQuestionGrid);
+		borderpaneImages.setBottom(buttonBoxImages);
+	
+		
+		tab1.setContent(borderpaneText);
+		tab2.setContent(borderpaneImages);
+	
+		VBox vbox = new VBox();
+		vbox.getStyleClass().add("add-questions-page");
+		vbox.getChildren().addAll(titleBox,questionSetterBox,tabpane);
+		vbox.setPadding(new Insets(20,0,0,0));
+		Scene scene = new Scene(vbox,700,500);
+        scene.getStylesheets().add("NewFile.css");
+	    window.setScene(scene);
+	    window.show();
+	}
+	
+	public static Node createSpacer() {
+	    final Region spacer = new Region();
+	    // Make it always grow or shrink according to the available space
+	    HBox.setHgrow(spacer, Priority.ALWAYS);
+	    return spacer;
+	}
+	
+	public static void imageButtonAction(ImageView iv, Button button) {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Add image");		
         FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
         FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
         fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
         File file = fileChooser.showOpenDialog(window);
-        Image image = new Image(file.toURI().toString());
-        iv.setImage(image);
-        iv.setFitWidth(100);
-        iv.setPreserveRatio(true);
-        iv.setSmooth(true);
-        iv.setCache(true);
+        if (file != null) { 	
+        		String imagepath;
+			try {
+				imagepath = file.toURI().toURL().toString();
+				Image image = new Image(imagepath);        	
+				iv.setImage(image);
+				button.setText("Image added");
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+        }
+	}
+	
+	public static void createTextQuestion(TextField questionf,TextField ansA,TextField ansB,TextField ansC,TextField corA) {
+		QuizQuestionPOJO quizQuestionPOJO = new QuizQuestionPOJO();
+		quizQuestionPOJO.setTextOrImage("Text");
+		quizQuestionPOJO.setQuestion(questionf.getText());
+		quizQuestionPOJO.setAnswerA(ansA.getText());
+		quizQuestionPOJO.setAnswerB(ansB.getText());
+		quizQuestionPOJO.setAnswerC(ansC.getText());
+		quizQuestionPOJO.setCorrectAnswer(corA.getText());
+		listofQuizQuestions.add(quizQuestionPOJO);
+		questionf.clear();
+		ansA.clear();
+		ansB.clear();
+		ansC.clear();
+		corA.clear();
+	}
+	
+	public static void createImageQuestion(TextField questionf, ImageView ansA,ImageView ansB,ImageView ansC,ImageView corA) {
+		QuizQuestionPOJO quizQuestionPOJO = new QuizQuestionPOJO();
+		quizQuestionPOJO.setTextOrImage("Image");
+		quizQuestionPOJO.setQuestion(questionf.getText());
+		quizQuestionPOJO.setAnswerAImage(ansA);
+		quizQuestionPOJO.setAnswerBImage(ansB);
+		quizQuestionPOJO.setAnswerCImage(ansC);
+		quizQuestionPOJO.setcorrectImage(corA);
+		listofQuizQuestions.add(quizQuestionPOJO);
+		questionf.clear();
 	}
 }
 

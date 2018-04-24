@@ -1,0 +1,154 @@
+
+/* background colour for pages */
+
+.root{
+	-fx-focus-color: transparent; 
+	-fx-faint-focus-color: transparent;
+}
+
+.main-page-borderpane, .engagement-borderpane, .school-adder-borderpane, 
+.add-questions-page, .playquiz-borderpane, .alertbox-background{
+	-fx-background-color: #4281A4;
+}
+
+#page-titles {
+	-fx-text-fill: #DAFFEF;
+	-fx-font-size: 30;
+}
+
+/* nav button styles */
+.navigation-buttons, .navigation-buttons:hover {
+	-fx-background-color: #DAFFEF;
+	-fx-background-radius: 30;
+	-fx-text-fill: #39393A;
+	-fx-font-size:16;
+	-fx-cursor: hand;
+}
+
+/* main page styling*/
+.main-page-borderpane .choice-box, .main-page-borderpane .choice-box:hover {
+	-fx-background-color: #DAFFEF;
+	-fx-font-size: 14;
+	-fx-text-fill: #39393A;	
+	-fx-cursor: hand;
+}
+
+#play-button {
+	-fx-background-radius: 30;
+	-fx-min-width: 300;
+	-fx-min-height: 50;
+	-fx-background-color: #DAFFEF;
+	-fx-text-fill: #39393A;
+	-fx-font-size: 20;
+}
+
+/* engagement page styling*/
+.engagement-buttons, .engagement-buttons:hover{
+	-fx-background-radius: 30;
+	-fx-min-width: 250;
+	-fx-min-height: 50;
+	-fx-background-color: #DAFFEF;
+	-fx-text-fill: #39393A;
+	-fx-font-size: 20;
+	-fx-cursor: hand;
+}
+
+/* school adder page styling*/
+.school-adder-borderpane .label {
+	-fx-font-size: 16;
+	-fx-text-fill: #DAFFEF;
+}
+
+.school-adder-borderpane .text-field {
+	-fx-background-color: #DAFFEF;
+	-fx-font-size: 14;
+	-fx-text-fill: #39393A;
+}
+
+/* add questions page styling*/
+.add-questions-page .label {
+	-fx-font-size: 16;
+	-fx-text-fill: #DAFFEF;
+}
+
+.add-questions-page .text-field {
+	-fx-background-color: #DAFFEF;
+	-fx-font-size: 14;
+	-fx-text-fill: #39393A;
+}
+
+.image-adder-button {
+	-fx-background-color: #DAFFEF;
+	-fx-background-radius: 30;
+	-fx-text-fill: #39393A;
+	-fx-font-size:16;
+	-fx-cursor: hand;
+	-fx-min-width: 200;
+	-fx-min-height: 20;
+}
+
+.tab-pane > .tab-header-area {
+	-fx-cursor:hand ;
+}
+
+.tab-pane > .tab-header-area > .tab-header-background {
+    -fx-background-color: #4281A4;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab .tab-label {
+	-fx-text-fill: #DAFFEF;
+	-fx-pref-width: 340;
+	-fx-text-alignment:center;
+	-fx-font-size: 20;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab {
+	-fx-background-color: #4281A4;
+    -fx-background-radius: 10 10 0 0;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #4281A4;
+    -fx-pref-width: 340;
+    -fx-pref-height: 35;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:selected {
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #DAFFEF;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:selected .tab-label {
+ 	-fx-text-fill: #DAFFEF;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:hover .tab-label {
+ 	-fx-text-fill: #DAFFEF;
+}
+
+/* Play quiz page styling */
+
+.playquiz-image-button {
+	-fx-background-color: transparent;	
+	-fx-background-radius: 20;
+}
+
+.playquiz-text-button {
+	-fx-background-radius: 20;
+	-fx-min-width: 200;
+	-fx-min-height: 100;
+	-fx-background-color: #DAFFEF;
+	-fx-text-fill: #39393A;
+	-fx-font-size: 20;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

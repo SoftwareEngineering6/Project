@@ -1,13 +1,14 @@
 import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.text.Text;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.geometry.*;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Rectangle;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -17,8 +18,8 @@ public class PlayQuiz {
 	
 	static int correctAnswers = 0;
 	static int skippedAnswers = 0;
-	
 	static int questionNumber = 0;
+	
 	static Label question = new Label();
 	static Button btn1 = new Button("");
 	static Button btn2 = new Button("");
@@ -27,129 +28,168 @@ public class PlayQuiz {
 	static Stage window = new Stage();
 
 	public static void display(){
-
-		FlowPane rootNode = new FlowPane(10, 10);
-		Scene scene = new Scene(rootNode, 500, 500);
-
-	    	question.setText("Question");
-	    	question.setStyle("-fx-font: 28 arial;");
-	    	question.setLayoutY(50);
-	    	question.setLayoutX(115);
-
-	    btn1.setLayoutY(120);
-	    btn1.setLayoutX(10);
-	    btn1.setPadding(new Insets(20));
-   	 	btn1.setPrefWidth(200);
-
-	    btn2.setLayoutY(120);
-	    btn2.setLayoutX(220);
-	    btn2.setPadding(new Insets(20));
-   	 	btn2.setPrefWidth(200);
-
-	    btn3.setLayoutY(200);
-	    btn3.setLayoutX(10);
-	    btn3.setPadding(new Insets(20));
-   	 	btn3.setPrefWidth(200);
-
-	    btn4.setLayoutY(200);
-	    btn4.setLayoutX(220);
-	    btn4.setPadding(new Insets(20));
-   	 	btn4.setPrefWidth(200);
+	
+	    	question.setText("");
+	    	question.setId("page-titles");
 
    	 	Button btn5 = new Button("Reset");
+   	 	btn5.getStyleClass().add("navigation-buttons");
    	 	btn5.setOnAction(e -> {
    	 		questionNumber = 0;		//Resets quiz for next user
+   	 		correctAnswers = 0;
+   	 		skippedAnswers = 0;
    	 		window.close();
    	 	});
-	    btn5.setLayoutY(390);
-	    btn5.setLayoutX(10);
-	    btn5.setPadding(new Insets(10));
-   	 	btn5.setPrefWidth(80);
 
    	 	Button btn6 = new Button("Skip");
+   	 	btn6.getStyleClass().add("navigation-buttons");
    	 	btn6.setOnAction(e -> {
    	 		skippedAnswers++;
-   	 		alertBox.quizAnswerMessage("Skipped!", "Question skipped");
+   	 		alertBox.quizAnswerMessage("Question skipped!");
    	 	});
-	    btn6.setLayoutY(390);
-	    btn6.setLayoutX(390);
-	    btn6.setPadding(new Insets(10));
-   	 	btn6.setPrefWidth(80);
-
-	    Pane root = new Pane();
-		root.getChildren().addAll(btn1, btn2, btn3, btn4, btn5, btn6);
 		
 		randomiser(question, AddQuestionSet.listofQuizQuestions.get(questionNumber), btn1, btn2, btn3, btn4);
-
-		btn1.setOnAction(e -> {
-			if(btn1.getText().equals(AddQuestionSet.listofQuizQuestions.get(questionNumber).correctAnswer)) {
-				correctAnswers++;
-				alertBox.quizAnswerMessage("Correct!", "Correct answer, Well done!");
-			} else {
-				alertBox.quizAnswerMessage("Wrong!", "Wrong answer!");	
-			}
-		});
 		
-		btn2.setOnAction(e -> {
-			if(btn2.getText().equals(AddQuestionSet.listofQuizQuestions.get(questionNumber).correctAnswer)) {
-				correctAnswers++;
-				alertBox.quizAnswerMessage("Correct!", "Correct answer, Well done!");
-			} else {
-				alertBox.quizAnswerMessage("Wrong!", "Wrong answer!");	
-			}
-		});
+		HBox questionTopBar = new HBox();
+		questionTopBar.setAlignment(Pos.CENTER);
+		questionTopBar.getChildren().add(question);
 		
-		btn3.setOnAction(e -> {
-			if(btn3.getText().equals(AddQuestionSet.listofQuizQuestions.get(questionNumber).correctAnswer)) {
-				correctAnswers++;
-				alertBox.quizAnswerMessage("Correct!", "Correct answer, Well done!");
-			} else {
-				alertBox.quizAnswerMessage("Wrong!", "Wrong answer!");	
-			}
-		});
+		GridPane questionGridArea = new GridPane();
+		questionGridArea.setAlignment(Pos.CENTER);
+	    GridPane.setHalignment(btn1, HPos.CENTER);
+		questionGridArea.add(btn1, 0, 0);
+	    GridPane.setHalignment(btn2, HPos.CENTER);
+		questionGridArea.add(btn2, 0, 1);
+	    GridPane.setHalignment(btn3, HPos.CENTER);
+		questionGridArea.add(btn3, 1, 0);
+	    GridPane.setHalignment(btn4, HPos.CENTER);
+		questionGridArea.add(btn4, 1, 1);
+		questionGridArea.setPadding(new Insets(30));
+		questionGridArea.setHgap(100);
+		questionGridArea.setVgap(100);
+		for(int x=0;x<2;x++) {
+			ColumnConstraints c1 = new ColumnConstraints();
+			c1.setPercentWidth(50);
+			questionGridArea.getColumnConstraints().add(c1);
+		}
 		
-		btn4.setOnAction(e -> {
-			if(btn4.getText().equals(AddQuestionSet.listofQuizQuestions.get(questionNumber).correctAnswer)) {
-				correctAnswers++;
-				alertBox.quizAnswerMessage("Correct!", "Correct answer, Well done!");
-			} else {
-				alertBox.quizAnswerMessage("Wrong!", "Wrong answer!");	
-			}
-		});
+		HBox optionBottomBar = new HBox();
+		optionBottomBar.setAlignment(Pos.CENTER);
+		optionBottomBar.getChildren().addAll(btn5,AddQuestionSet.createSpacer(),btn6);
 		
-		rootNode.getChildren().addAll(question, root);
+		BorderPane borderpane = new BorderPane();
+		borderpane.getStyleClass().add("playquiz-borderpane");
+		borderpane.setPadding(new Insets(20));
+		borderpane.setTop(questionTopBar);
+		borderpane.setCenter(questionGridArea);
+		borderpane.setBottom(optionBottomBar);
+		
+		Scene scene = new Scene(borderpane, 900, 700);
+		scene.getStylesheets().add("NewFile.css");
         window.setScene(scene);
 		window.show();
 	}
 	
+	
+	/* Everything is in here otherwise NullPointerExeption occurs, method will check if it is text or image
+	 question, then assign the answers to the buttons, and deal with the reset after each question */
 	public static void randomiser(Label question, QuizQuestionPOJO a, Button btn1, 
 			Button btn2, Button btn3, Button btn4) {
+		btn1.setText("");
+		btn2.setText("");
+		btn3.setText("");
+		btn4.setText("");
+		btn1.setGraphic(null);
+		btn2.setGraphic(null);
+		btn3.setGraphic(null);
+		btn4.setGraphic(null);
 		
 		question.setText(AddQuestionSet.listofQuizQuestions.get(questionNumber).question);
 	    Random rand = new Random();
-	    List<String> questionList = new ArrayList();
-	    List<Button> buttonList = new ArrayList();
-	    questionList.add(a.getAnswerA());
-	    questionList.add(a.getAnswerB());
-	    questionList.add(a.getAnswerC());
-	    questionList.add(a.getCorrectAnswer());
-	    buttonList.add(btn1);
-	    buttonList.add(btn2);
-	    buttonList.add(btn3);
-	    buttonList.add(btn4);
-
-	    int numberOfElements = 4;
-	 
-	    for (int i = 0; i < numberOfElements; i++) {
-	        int randomQIndex = rand.nextInt(questionList.size());
-	        int randomBIndex = rand.nextInt(buttonList.size());
-
-	        String randomElement = questionList.get(randomQIndex);
-	        buttonList.get(randomBIndex).setText(randomElement);
-	        questionList.remove(randomQIndex);
-	        buttonList.remove(randomBIndex);
+	    List<String> questionListText = new ArrayList<String>();
+	    List<ImageView> questionListImage = new ArrayList<ImageView>();
+	    List<Button> buttonList = new ArrayList<Button>();
+	    
+	    try {
+		    	if(a.getTextOrImage().contains("Image")) {
+		    		questionListImage.add(a.getAnswerAImage());
+		    		questionListImage.add(a.getAnswerBImage());
+		    		questionListImage.add(a.getAnswerCImage());
+		    		questionListImage.add(a.getcorrectImage());
+		    	    buttonList.add(btn1);
+		    	    buttonList.add(btn2);
+		    	    buttonList.add(btn3);
+		    	    buttonList.add(btn4);
+		    	    int numberOfElements = 4;
+		    	    for (int i = 0; i < numberOfElements; i++) {
+		    	        int randomQIndex = rand.nextInt(questionListImage.size());
+		    	        int randomBIndex = rand.nextInt(buttonList.size());
+		    	        ImageView randomElement = questionListImage.get(randomQIndex);   
+		    	        buttonList.get(randomBIndex).setGraphic(randomElement);
+		    	        buttonList.get(randomBIndex).setStyle("-fx-background-color: transparent");
+		    	        questionListImage.remove(randomQIndex);
+		    	        buttonList.remove(randomBIndex);
+		    	    }
+		    	    
+		    	    btn1.setOnAction(e -> imageQuestionChecker(btn1));
+		    	    btn2.setOnAction(e -> imageQuestionChecker(btn2));
+		    		btn3.setOnAction(e -> imageQuestionChecker(btn3));
+		    		btn4.setOnAction(e -> imageQuestionChecker(btn4));
+		    		
+		    } else if (a.getTextOrImage().contains("Text")) {
+			    questionListText.add(a.getAnswerA());
+			    questionListText.add(a.getAnswerB());
+			    questionListText.add(a.getAnswerC());
+			    questionListText.add(a.getCorrectAnswer());
+			    buttonList.add(btn1);
+			    buttonList.add(btn2);
+			    buttonList.add(btn3);
+			    buttonList.add(btn4);	
+			    int numberOfElements = 4;
+				 
+			    for (int i = 0; i < numberOfElements; i++) {
+			        int randomQIndex = rand.nextInt(questionListText.size());
+			        int randomBIndex = rand.nextInt(buttonList.size());
+			        String randomElement = questionListText.get(randomQIndex);
+			        buttonList.get(randomBIndex).setText(randomElement);
+			        buttonList.get(randomBIndex).setStyle("	-fx-background-radius: 20;\n" + 
+			        		"	-fx-min-width: 200;\n" + 
+			        		"	-fx-min-height: 100;\n" + 
+			        		"	-fx-background-color: #DAFFEF;\n" + 
+			        		"	-fx-text-fill: #39393A;\n" + 
+			        		"	-fx-font-size: 20;");
+			        questionListText.remove(randomQIndex);
+			        buttonList.remove(randomBIndex);
+			    }
+			    
+			    btn1.setOnAction(e -> textQuestionChecker(btn1));
+			    btn2.setOnAction(e -> textQuestionChecker(btn2));
+				btn3.setOnAction(e -> textQuestionChecker(btn3));
+				btn4.setOnAction(e -> textQuestionChecker(btn4));
+				
+		    }
+	    } catch (NullPointerException e) {
+            e.printStackTrace();
 	    }
 	}
+    
+    public static void textQuestionChecker(Button button) {
+    		if(button.getText().equals(AddQuestionSet.listofQuizQuestions.get(questionNumber).correctAnswer)) {
+			correctAnswers++;
+			alertBox.quizAnswerMessage("Correct answer, Well done!");
+		} else {
+			alertBox.quizAnswerMessage("Wrong answer!");	
+		}
+    }
+    
+    public static void imageQuestionChecker(Button button) {
+    		if(button.getGraphic().equals(AddQuestionSet.listofQuizQuestions.get(questionNumber).correctImage)) {
+			correctAnswers++;
+			alertBox.quizAnswerMessage("Correct answer, Well done!");
+		} else {
+			alertBox.quizAnswerMessage("Wrong answer!");	
+		}
+    }
 }
 
 

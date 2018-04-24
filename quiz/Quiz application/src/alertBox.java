@@ -64,6 +64,7 @@ public class alertBox {
 			closeButton.setText("End Quiz");
 			layout.getChildren().addAll(label1,label2,closeButton);
 			Main.choiceBox.getSelectionModel().getSelectedItem().setQuizScore(PlayQuiz.correctAnswers);
+			System.out.println(Main.choiceBox.getSelectionModel().getSelectedItem().getQuizScore());
 			Main.choiceBox.getSelectionModel().getSelectedItem().setTimeTaken(Stopwatch.playerElapsedTime);
 			Main.choiceBox.getSelectionModel().getSelectedItem().setSkippedQuestions(PlayQuiz.skippedAnswers);
 			PlayQuiz.questionNumber = 0;	// reset for next user

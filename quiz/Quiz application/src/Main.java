@@ -1,4 +1,6 @@
 import javafx.application.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.stage.*;
 import javafx.util.StringConverter;
 import javafx.scene.*;
@@ -20,6 +22,7 @@ public class Main extends Application {
 	static int i = 0;
 	static school[] schoolList = new school[5];		// Array of school objects
     static ChoiceBox<school> choiceBox = new ChoiceBox<school>();		// choicebox to choose school
+    static ChoiceBox<school> statsChoiceBox = new ChoiceBox<school>();
 
     	public static void main(String[] args) { 
     		launch(args);   
@@ -115,7 +118,13 @@ public class Main extends Application {
 
         button1.setOnAction(e ->schoolAdder());
         button2.setOnAction(e -> AddQuestionSet.display());
-        button3.setOnAction(e -> statsPage());
+        button3.setOnAction(e -> {
+        		if(choiceBox.getItems().size() == 0) {
+        			alertBox.noDetails("Add school details first");
+        		} else {
+        			statsPage();
+        		}
+        });
         button4.setOnAction(e -> window.close());
 
         //testing for layout
@@ -179,23 +188,22 @@ public class Main extends Application {
 
       public static void viewStats() {
         Stage window = new Stage();
-        window.setTitle("Page title");
         Label pageTitle = new Label("Statistics");
-
-        BarChart<String,Number> scores = statsGraphs.viewScores();
-        BarChart<String,Number> times = statsGraphs.viewTime();
-        BarChart<String,Number> skipped = statsGraphs.viewSkipped();
+        pageTitle.setId("page-titles");
+        statsChoiceBox.getSelectionModel().selectFirst();
 
         Button closeButton = new Button("Return");
         closeButton.setOnAction(e -> window.close());
 
         HBox title = new HBox();
         title.setAlignment(Pos.CENTER);
-        title.getChildren().addAll(pageTitle);
+        title.getChildren().addAll(pageTitle,statsChoiceBox);
 
         VBox graphs = new VBox(10);
         graphs.setAlignment(Pos.CENTER);
-        graphs.getChildren().addAll(scores, times, skipped);
+        graphs.getChildren().addAll(statsGraphs.viewScores(statsChoiceBox.getSelectionModel().getSelectedItem())
+        		, statsGraphs.viewTime(statsChoiceBox.getSelectionModel().getSelectedItem())
+        		, statsGraphs.viewSkipped(statsChoiceBox.getSelectionModel().getSelectedItem()));
 
         HBox functionButtons = new HBox(20);
         functionButtons.setAlignment(Pos.BOTTOM_RIGHT);
@@ -205,7 +213,18 @@ public class Main extends Application {
         graphsBorderpane.setTop(title);
         graphsBorderpane.setCenter(graphs);
         graphsBorderpane.setBottom(functionButtons);
-        graphsBorderpane.setPadding(new Insets(20, 20, 20, 20));
+        graphsBorderpane.setPadding(new Insets(20));
+        
+        statsChoiceBox.valueProperty().addListener(new ChangeListener<school>() {
+	        @Override public void changed(ObservableValue ov, school t, school t1) {
+	        	graphs.getChildren().remove(2);
+	        	graphs.getChildren().remove(1);
+	        	graphs.getChildren().remove(0);
+	        graphs.getChildren().add(statsGraphs.viewScores(statsChoiceBox.getSelectionModel().getSelectedItem()));
+	        graphs.getChildren().add(statsGraphs.viewTime(statsChoiceBox.getSelectionModel().getSelectedItem()));
+	        graphs.getChildren().add(statsGraphs.viewSkipped(statsChoiceBox.getSelectionModel().getSelectedItem()));
+	        }
+	      });
 
         Scene scene = new Scene(graphsBorderpane, 600, 600);
         window.setScene(scene);
@@ -236,6 +255,7 @@ public class Main extends Application {
 					int age = Integer.parseInt(passInput.getText());
 					schoolList[i] = new school(nameInput.getText(),age);
 					choiceBox.getItems().add(schoolList[i]);
+					statsChoiceBox.getItems().add(schoolList[i]);
 					i ++;
 					passInput.setText("");
 					nameInput.setText("");
@@ -274,6 +294,17 @@ public class Main extends Application {
         // Ensures choiceBox will display name of the school whilst still pointing to memory location
         // of the school object, rather than a string
 		choiceBox.setConverter(new StringConverter<school>() {
+		    @Override
+		    public String toString(school uni) {
+		        return uni.schoolName + " -" + " Year: " + uni.studentAges;
+		    }
+		    @Override
+		    // not used...
+		    public school fromString(String s) {
+		        return null ;
+		    }
+		});
+		statsChoiceBox.setConverter(new StringConverter<school>() {
 		    @Override
 		    public String toString(school uni) {
 		        return uni.schoolName + " -" + " Year: " + uni.studentAges;

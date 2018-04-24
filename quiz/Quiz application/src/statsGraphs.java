@@ -6,8 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class statsGraphs {
-  public static BarChart<String,Number> viewScores() {
-    List<Integer> score = school.quizScore;
+  public static BarChart<String,Number> viewScores(school a) {
+	List<Integer> score = new ArrayList<Integer>();
+	for(int x=0; x < a.getQuizScore().size();x++) {
+		score.add(a.getQuizScore().get(x));
+	}
+	
     final CategoryAxis xAxis = new CategoryAxis();
     final NumberAxis yAxis = new NumberAxis();
     final BarChart<String,Number> scoreB = new BarChart<>(xAxis, yAxis);
@@ -28,8 +32,11 @@ public class statsGraphs {
     return scoreB;
   }
 
-  public static BarChart<String,Number> viewTime() {
-    List<Double> time = school.timeTaken;
+  public static BarChart<String,Number> viewTime(school a) {
+	List<Double> time = new ArrayList<Double>();
+	for(int x=0; x < a.getTimeTaken().size();x++) {
+		time.add(a.getTimeTaken().get(x));
+	}
     final CategoryAxis xAxis = new CategoryAxis();
     final NumberAxis yAxis = new NumberAxis();
     final BarChart<String,Number> timeB = new BarChart<String,Number>(xAxis, yAxis);
@@ -50,8 +57,11 @@ public class statsGraphs {
     return timeB;
   }
 
-  public static BarChart<String,Number> viewSkipped() {
-    List<Integer> skip = school.skippedQuestions;
+  public static BarChart<String,Number> viewSkipped(school a) {
+	List<Integer> skip = new ArrayList<Integer>();
+	for(int x=0; x < a.getSkippedQuestions().size();x++) {
+		skip.add(a.getSkippedQuestions().get(x));
+	}
     final CategoryAxis xAxis = new CategoryAxis();
     final NumberAxis yAxis = new NumberAxis();
     final BarChart<String,Number> skipB = new BarChart<String,Number>(xAxis, yAxis);

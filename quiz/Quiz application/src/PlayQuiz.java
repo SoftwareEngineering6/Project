@@ -7,7 +7,6 @@ import javafx.scene.image.ImageView;
 import javafx.geometry.*;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

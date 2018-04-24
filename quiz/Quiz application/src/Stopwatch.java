@@ -14,7 +14,7 @@ static double playerElapsedTime;
 
 	public static double elapsedTime() {
 		double now = System.currentTimeMillis();
-		return (now - start);
+		return (now - start) / 1000.0;
 	}
 }
 	

@@ -2,6 +2,7 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +37,12 @@ public class statsGraphs {
     series.getData().add(new XYChart.Data("Average", aveScore));
 
     scoreB.getData().add(series);
+
+    for (int i = 0; i < score.size(); i++) {
+      XYChart.Data item = (XYChart.Data)series.getData().get(i);
+      Tooltip.install(item.getNode(), new Tooltip(item.getYValue().toString() + "/10"));
+    }
+
     return scoreB;
   }
 
@@ -57,7 +64,7 @@ public class statsGraphs {
 
     XYChart.Series series = new XYChart.Series();
     for (int i = 0; i < time.size(); i++) {
-      series.getData().add(new XYChart.Data(String.valueOf(i+1), (time.get(i)/1000)));
+      series.getData().add(new XYChart.Data(String.valueOf(i+1), (time.get(i))));
     }
 
     double sum = 0;
@@ -68,6 +75,12 @@ public class statsGraphs {
     series.getData().add(new XYChart.Data("Average", aveTime));
 
     timeB.getData().add(series);
+
+    for (int i = 0; i < time.size(); i++) {
+      XYChart.Data item = (XYChart.Data)series.getData().get(i);
+      Tooltip.install(item.getNode(), new Tooltip(item.getYValue().toString() + "s"));
+    }
+
     return timeB;
   }
 
@@ -100,6 +113,12 @@ public class statsGraphs {
     series.getData().add(new XYChart.Data("Average", aveSkip));
 
     skipB.getData().add(series);
+
+    for (int i = 0; i < skip.size(); i++) {
+      XYChart.Data item = (XYChart.Data)series.getData().get(i);
+      Tooltip.install(item.getNode(), new Tooltip(item.getYValue().toString() + " skipped"));
+    }
+
     return skipB;
   }
 }

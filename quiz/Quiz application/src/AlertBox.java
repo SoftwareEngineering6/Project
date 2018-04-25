@@ -1,3 +1,4 @@
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.stage.*;
@@ -128,6 +129,55 @@ public class AlertBox {
 		borderpane.getStyleClass().add("alertbox-background");
 		borderpane.setPadding(new Insets(20));
 		borderpane.setCenter(layout);
+		Scene scene = new Scene(borderpane);
+		scene.getStylesheets().add("NewFile.css");
+		window.setScene(scene);
+		window.showAndWait();	
+	}
+	
+	public static void passwordAccess() {
+		Stage window = new Stage();
+		window.initModality(Modality.APPLICATION_MODAL); // prevents user interacting with page behind alert box
+		window.setMinWidth(250);
+		
+		Label label1 = new Label("Enter Password:");
+		PasswordField pBox = new PasswordField();
+		pBox.setStyle("-fx-background-color: #DAFFEF; -fx-font-size: 14; -fx-text-fill: #39393A; -fx-cursor: hand");
+		label1.setStyle("-fx-text-fill:#DAFFEF; -fx-font-size:16");
+		
+		GridPane gridpane = new GridPane();
+		gridpane.setPadding(new Insets(20));
+        gridpane.add(label1, 0, 0);
+        GridPane.setHalignment(label1, HPos.RIGHT);
+        gridpane.add(pBox, 1, 0);
+        GridPane.setHalignment(pBox, HPos.LEFT);
+        gridpane.setHgap(10);
+		
+		Button closeButton = new Button("Return");
+		Button enterPassword = new Button("Confirm");
+		enterPassword.getStyleClass().add("navigation-buttons");
+		closeButton.getStyleClass().add("navigation-buttons");
+		closeButton.setOnAction(e -> window.close());
+		enterPassword.setOnAction(e ->{
+			if(pBox.getText().isEmpty()) {
+				noDetails("Enter a password");
+			} else if(pBox.getText().contentEquals("password")) {
+				Main.engagement();
+				window.close();
+			} else {
+				noDetails("Password incorrect");
+			}
+		});
+		
+		HBox hbox = new HBox();
+		hbox.setAlignment(Pos.CENTER);
+		hbox.getChildren().addAll(closeButton, AddQuestionSet.createSpacer(), enterPassword);
+		
+		BorderPane borderpane = new BorderPane();
+		borderpane.getStyleClass().add("alertbox-background");
+		borderpane.setPadding(new Insets(20));
+		borderpane.setCenter(gridpane);
+		borderpane.setBottom(hbox);
 		Scene scene = new Scene(borderpane);
 		scene.getStylesheets().add("NewFile.css");
 		window.setScene(scene);

@@ -148,6 +148,75 @@
 	-fx-cursor: hand;
 }
 
+/* Chart tab code styles */
+.chart-tab > .tab-header-area {
+	-fx-cursor:hand ;
+}
+
+.chart-tab > .tab-header-area > .tab-header-background {
+    -fx-background-color: #4281A4;
+}
+
+.chart-tab > .tab-header-area > .headers-region > .tab .tab-label {
+	-fx-text-fill: #DAFFEF;
+	-fx-pref-width: 200;
+	-fx-text-alignment:center;
+	-fx-font-size: 20;
+}
+
+.chart-tab > .tab-header-area > .headers-region > .tab {
+	-fx-background-color: #4281A4;
+    -fx-background-radius: 10 10 0 0;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #4281A4;
+    -fx-pref-width: 200;
+    -fx-pref-height: 35;
+}
+
+.chart-tab > .tab-header-area > .headers-region > .tab:selected {
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #DAFFEF;
+}
+
+.chart-tab > .tab-header-area > .headers-region > .tab:selected .tab-label {
+ 	-fx-text-fill: #DAFFEF;
+}
+
+.chart-tab > .tab-header-area > .headers-region > .tab:hover .tab-label {
+ 	-fx-text-fill: #DAFFEF;
+}
+
+/* Chart styling code */
+
+.chart .label {
+	-fx-text-fill: #DAFFEF ;
+}
+
+
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+.chart-horizontal-grid-lines {
+    -fx-stroke: silver;
+    -fx-stroke-width: 1;
+}
+
+.axis {
+    -fx-tick-label-fill: #DAFFEF;
+    -fx-tick-length: 15;
+    -fx-minor-tick-length: 10;
+}
+
+.chart-legend {
+   -fx-background-color:  transparent;
+   -fx-padding: 20px;
+}
+
+.chart-bar {
+	-fx-bar-fill: #DAFFEF;
+}
+
 
 
 

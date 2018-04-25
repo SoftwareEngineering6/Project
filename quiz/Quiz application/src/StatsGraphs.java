@@ -14,7 +14,7 @@ public class StatsGraphs {
 	}
 
     final CategoryAxis xAxis = new CategoryAxis();
-    final NumberAxis yAxis = new NumberAxis();
+    final NumberAxis yAxis = new NumberAxis(1,10,1);
     final BarChart<String,Number> scoreB = new BarChart<>(xAxis, yAxis);
 
     scoreB.setTitle("Score on Quiz");
@@ -43,6 +43,7 @@ public class StatsGraphs {
       Tooltip.install(item.getNode(), new Tooltip(item.getYValue().toString() + "/10"));
     }
 
+    scoreB.setPrefWidth(700);
     return scoreB;
   }
 
@@ -81,6 +82,7 @@ public class StatsGraphs {
       Tooltip.install(item.getNode(), new Tooltip(item.getYValue().toString() + "s"));
     }
 
+    timeB.setPrefWidth(700);
     return timeB;
   }
 
@@ -90,7 +92,8 @@ public class StatsGraphs {
 		skip.add(a.getSkippedQuestions().get(x));
 	}
     final CategoryAxis xAxis = new CategoryAxis();
-    final NumberAxis yAxis = new NumberAxis();
+
+    final NumberAxis yAxis = new NumberAxis(1,10,1);
     final BarChart<String,Number> skipB = new BarChart<String,Number>(xAxis, yAxis);
 
     skipB.setTitle("Number of Questions Skipped");
@@ -119,6 +122,7 @@ public class StatsGraphs {
       Tooltip.install(item.getNode(), new Tooltip(item.getYValue().toString() + " skipped"));
     }
 
+    skipB.setPrefWidth(700);
     return skipB;
   }
 }

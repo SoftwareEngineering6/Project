@@ -1,11 +1,16 @@
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -56,6 +61,7 @@ public class StatsPage {
 	
     public static void viewStats() {
         Stage window = new Stage();
+        
         Label pageTitle = new Label("Statistics");
         pageTitle.setId("page-titles");
         Main.statsChoiceBox.getSelectionModel().selectFirst();
@@ -67,17 +73,52 @@ public class StatsPage {
         HBox title = new HBox();
         title.setAlignment(Pos.CENTER);
         title.getChildren().addAll(pageTitle);
+        
         HBox selectionHbox = new HBox();
+        GridPane gridpane = new GridPane();
+        Label label = new Label("Choose school: ");
+        label.setStyle("	-fx-font-size: 16; -fx-text-fill: #DAFFEF");
+        gridpane.add(label, 0, 0);
+        GridPane.setHalignment(label, HPos.RIGHT);
+        gridpane.add(Main.statsChoiceBox, 1, 0);
+        GridPane.setHalignment(Main.statsChoiceBox, HPos.LEFT);
+        gridpane.setHgap(10);
         selectionHbox.setAlignment(Pos.CENTER);
-        selectionHbox.getChildren().add(Main.statsChoiceBox);
+        selectionHbox.setPadding(new Insets(20));
+        selectionHbox.getChildren().addAll(gridpane);
+        
         VBox top = new VBox();
         top.getChildren().addAll(title, selectionHbox);
-
-        VBox graphs = new VBox(10);
-        graphs.setAlignment(Pos.CENTER);
-        graphs.getChildren().addAll(StatsGraphs.viewScores(Main.statsChoiceBox.getSelectionModel().getSelectedItem())
-        		, StatsGraphs.viewTime(Main.statsChoiceBox.getSelectionModel().getSelectedItem())
-        		, StatsGraphs.viewSkipped(Main.statsChoiceBox.getSelectionModel().getSelectedItem()));
+        
+        TabPane tabpane = new TabPane();
+        tabpane.getStyleClass().add("chart-tab");
+        tabpane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
+        Tab tab1 = new Tab("Student Scores");
+        Tab tab2 = new Tab("Time Taken");
+        Tab tab3 = new Tab("Times Skipped");
+        tabpane.getTabs().addAll(tab1, tab2, tab3);
+        
+        BorderPane tab1Borderpane = new BorderPane();
+        HBox scoresBox = new HBox();
+        scoresBox.setAlignment(Pos.CENTER);
+        scoresBox.getChildren().add(StatsGraphs.viewScores(Main.statsChoiceBox.getSelectionModel().getSelectedItem()));
+        tab1Borderpane.setCenter(scoresBox);
+        
+        BorderPane tab2Borderpane = new BorderPane();
+        HBox timesBox = new HBox();
+        timesBox.setAlignment(Pos.CENTER);
+        timesBox.getChildren().add(StatsGraphs.viewTime(Main.statsChoiceBox.getSelectionModel().getSelectedItem()));
+        tab2Borderpane.setCenter(timesBox);
+        
+        BorderPane tab3Borderpane = new BorderPane();
+        HBox skippedBox = new HBox();
+        skippedBox.setAlignment(Pos.CENTER);
+        skippedBox.getChildren().add(StatsGraphs.viewSkipped(Main.statsChoiceBox.getSelectionModel().getSelectedItem()));
+        tab3Borderpane.setCenter(skippedBox);
+        
+        tab1.setContent(tab1Borderpane);
+        tab2.setContent(tab2Borderpane);
+        tab3.setContent(tab3Borderpane);
 
         HBox functionButtons = new HBox(20);
         functionButtons.setAlignment(Pos.BOTTOM_LEFT);
@@ -85,7 +126,7 @@ public class StatsPage {
 
         BorderPane graphsBorderpane = new BorderPane();
         graphsBorderpane.setTop(top);
-        graphsBorderpane.setCenter(graphs);
+        graphsBorderpane.setCenter(tabpane);
         graphsBorderpane.setBottom(functionButtons);
         graphsBorderpane.setPadding(new Insets(20));
         graphsBorderpane.getStyleClass().add("engagement-borderpane");
@@ -93,12 +134,12 @@ public class StatsPage {
         Main.statsChoiceBox.valueProperty().addListener(new ChangeListener<School>() {
 	        @SuppressWarnings("rawtypes")
 			@Override public void changed(ObservableValue ov, School t, School t1) {
-	        	graphs.getChildren().remove(2);
-	        	graphs.getChildren().remove(1);
-	        	graphs.getChildren().remove(0);
-	        graphs.getChildren().add(StatsGraphs.viewScores(Main.statsChoiceBox.getSelectionModel().getSelectedItem()));
-	        graphs.getChildren().add(StatsGraphs.viewTime(Main.statsChoiceBox.getSelectionModel().getSelectedItem()));
-	        graphs.getChildren().add(StatsGraphs.viewSkipped(Main.statsChoiceBox.getSelectionModel().getSelectedItem()));
+	        	scoresBox.getChildren().remove(0);
+	        	timesBox.getChildren().remove(0);
+	        	skippedBox.getChildren().remove(0);
+	        	scoresBox.getChildren().add(StatsGraphs.viewScores(Main.statsChoiceBox.getSelectionModel().getSelectedItem()));
+	        	timesBox.getChildren().add(StatsGraphs.viewTime(Main.statsChoiceBox.getSelectionModel().getSelectedItem()));
+	        	skippedBox.getChildren().add(StatsGraphs.viewSkipped(Main.statsChoiceBox.getSelectionModel().getSelectedItem()));
 	        }
 	      });
 

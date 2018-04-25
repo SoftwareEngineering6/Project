@@ -35,7 +35,7 @@ public class Main extends Application {
 		Button adminButton = new Button();
 		adminButton.setText("Admin");
 		adminButton.getStyleClass().add("navigation-buttons");
-		adminButton.setOnAction(e -> engagement());
+		adminButton.setOnAction(e -> AlertBox.passwordAccess());
 
 	    Button playQuizButton = new Button();
 	    playQuizButton.setId("play-button");
@@ -95,7 +95,7 @@ public class Main extends Application {
     	} 
     
   
-    public void engagement() {
+    public static void engagement() {
 		Stage window = new Stage();
 
         //Button 1
@@ -150,10 +150,10 @@ public class Main extends Application {
         borderpane.setCenter(optionButtons);
         borderpane.setBottom(bottomBar);
         borderpane.setPadding(new Insets(20,20,20,20));
-                
-        scene1 = new Scene(borderpane, 700, 500);
-        scene1.getStylesheets().add("NewFile.css");
-        window.setScene(scene1);
+              
+        Scene scene = new Scene(borderpane, 700, 500);
+        scene.getStylesheets().add("NewFile.css");
+        window.setScene(scene);
         window.setTitle("Engagement Team Page");
         window.show();
     }

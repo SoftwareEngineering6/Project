@@ -1,3 +1,5 @@
+import java.io.File;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.HPos;
@@ -13,6 +15,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class StatsPage {
@@ -28,7 +31,16 @@ public class StatsPage {
 
         Button downloadButton = new Button("Download Statistics");
         downloadButton.getStyleClass().add("engagement-buttons");
-        downloadButton.setOnAction(e -> WriteToCsv.download());
+        
+        downloadButton.setOnAction(e -> {
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("Save statistics");
+			File file = fileChooser.showSaveDialog(window);
+            if(file != null){
+            		WriteToCsv.download(file);
+            	    AlertBox.noDetails("Download Complete!");
+            	}
+	    	});
 
         Button closeButton = new Button("Return");
         closeButton.getStyleClass().add("navigation-buttons");

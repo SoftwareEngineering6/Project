@@ -1,15 +1,16 @@
 import java.io.*;
 
 public class WriteToCsv {
-  public static void download() {
+  public static void download(File file) {
 
     final String COMMA_DELIMITER = ",";
     final String NEW_LINE_SEPERATOR = "\n";
     final String FILE_HEADER = "student,score,timetaken,skipped";
+	String sep = System.getProperty("file.separator");	// For different file systems
 
     try {
-      Writer w = new FileWriter("output.csv");
-      
+      Writer w = new FileWriter(new File(file.getAbsolutePath()) + sep);
+
       for(School a : Main.choiceBox.getItems()) {
     	  	w.append(String.valueOf(a.schoolName));
     	    w.append(NEW_LINE_SEPERATOR);
@@ -28,7 +29,6 @@ public class WriteToCsv {
     	    }
       }
       w.close();
-      AlertBox.noDetails("Download Complete!");
     } catch(IOException e) {
       e.printStackTrace();
     }

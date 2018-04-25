@@ -1,17 +1,13 @@
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.geometry.*;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Rectangle;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import javafx.event.*; 
 
 public class PlayQuiz {
 	
@@ -44,7 +40,7 @@ public class PlayQuiz {
    	 	btn6.getStyleClass().add("navigation-buttons");
    	 	btn6.setOnAction(e -> {
    	 		skippedAnswers++;
-   	 		alertBox.quizAnswerMessage("Question skipped!");
+   	 		AlertBox.quizAnswerMessage("Question skipped!");
    	 	});
 		
 		randomiser(question, AddQuestionSet.listofQuizQuestions.get(questionNumber), btn1, btn2, btn3, btn4);
@@ -175,18 +171,18 @@ public class PlayQuiz {
     public static void textQuestionChecker(Button button) {
     		if(button.getText().equals(AddQuestionSet.listofQuizQuestions.get(questionNumber).correctAnswer)) {
 			correctAnswers++;
-			alertBox.quizAnswerMessage("Correct answer, Well done!");
+			AlertBox.quizAnswerMessage("Correct answer, Well done!");
 		} else {
-			alertBox.quizAnswerMessage("Wrong answer!");	
+			AlertBox.quizAnswerMessage("Wrong answer!");	
 		}
     }
     
     public static void imageQuestionChecker(Button button) {
     		if(button.getGraphic().equals(AddQuestionSet.listofQuizQuestions.get(questionNumber).correctImage)) {
 			correctAnswers++;
-			alertBox.quizAnswerMessage("Correct answer, Well done!");
+			AlertBox.quizAnswerMessage("Correct answer, Well done!");
 		} else {
-			alertBox.quizAnswerMessage("Wrong answer!");	
+			AlertBox.quizAnswerMessage("Wrong answer!");	
 		}
     }
 }

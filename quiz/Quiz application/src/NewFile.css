@@ -140,6 +140,14 @@
 	-fx-font-size: 20;
 }
 
+/* Code to style statbox choice box*/
+.engagement-borderpane .choice-box, .engagement-borderpane .choice-box:hover {
+	-fx-background-color: #DAFFEF;
+	-fx-font-size: 14;
+	-fx-text-fill: #39393A;	
+	-fx-cursor: hand;
+}
+
 
 
 

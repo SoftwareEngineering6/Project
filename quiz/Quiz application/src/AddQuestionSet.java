@@ -2,26 +2,14 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.geometry.HPos;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.geometry.*;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
 import javafx.scene.control.TabPane.TabClosingPolicy;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -43,7 +31,6 @@ public class AddQuestionSet {
 			a.setCache(true);
 		}
 		
-	    Label questionTopic = new Label("Enter question topic");
 	    Label actualQuestion = new Label("Enter the question:");
 	    Label answerATextLabel = new Label("Answer A:");
 	    Label answerBTextLabel = new Label("Answer B:");
@@ -55,7 +42,6 @@ public class AddQuestionSet {
 	    Label answerCImageLabel = new Label("Answer C:");
 	    Label correctAnswerImageLabel = new Label("Correct Answer:");
 	
-	    TextField questionTopicField = new TextField();
 	    TextField actualQuestionField = new TextField();
 	    TextField answerAField = new TextField();
 	    TextField answerBField = new TextField();
@@ -99,14 +85,14 @@ public class AddQuestionSet {
 	    		if(answerAField.getText().isEmpty() || answerBField.getText().isEmpty() 
 	    				|| answerCField.getText().isEmpty() || correctAnswerField.getText().isEmpty()
 	    				|| actualQuestionField.getText().isEmpty()) {
-	    			alertBox.noDetails( "Please enter all details");
+	    			AlertBox.noDetails( "Please enter all details");
 	    		} else if(counter != 9) {
 	    			createTextQuestion(actualQuestionField, answerAField, answerBField, answerCField, correctAnswerField);
-	    			alertBox.noDetails("Text question added");
+	    			AlertBox.noDetails("Text question added");
 	    			counter++;
 			} else {
 				createTextQuestion(actualQuestionField, answerAField, answerBField, answerCField, correctAnswerField);
-	    			alertBox.noDetails("10 Questions added");
+	    			AlertBox.noDetails("10 Questions added");
 	    			window.close();
 				}
 	    });
@@ -114,14 +100,14 @@ public class AddQuestionSet {
 	    saveButtImage.setOnAction(e ->{
 			if(imageList[0].getImage() == null || imageList[1].getImage() == null || imageList[2].getImage() == null
 					|| imageList[3].getImage() == null ||actualQuestionField.getText().isEmpty()) {
-				alertBox.noDetails("Please add all images");
+				AlertBox.noDetails("Please add all images");
 			} else if(counter != 9) {
 				createImageQuestion(actualQuestionField, imageList[0], imageList[1], imageList[2], imageList[3]);
-				alertBox.noDetails("Image question added");
+				AlertBox.noDetails("Image question added");
 				counter++;
 			} else {
 				createImageQuestion(actualQuestionField, imageList[0], imageList[1], imageList[2], imageList[3]);
-				alertBox.noDetails("10 Questions added");
+				AlertBox.noDetails("10 Questions added");
 				window.close();
 			}
 	    });
@@ -282,6 +268,7 @@ public class AddQuestionSet {
 				button.setText("Image added");
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
+				AlertBox.noDetails("File path error, try another image");
 			}
         }
 	}

@@ -14,6 +14,7 @@ public class PlayQuiz {
 	static int correctAnswers = 0;
 	static int skippedAnswers = 0;
 	static int questionNumber = 0;
+	static boolean hasQuizbeenPlayed = false;
 	
 	static Label question = new Label();
 	static Button btn1 = new Button("");
@@ -33,6 +34,7 @@ public class PlayQuiz {
    	 		questionNumber = 0;		//Resets quiz for next user
    	 		correctAnswers = 0;
    	 		skippedAnswers = 0;
+   	 		AlertBox.quizAnswerMessage("Quiz reset");
    	 		window.close();
    	 	});
 
@@ -121,7 +123,7 @@ public class PlayQuiz {
 		    	        int randomBIndex = rand.nextInt(buttonList.size());
 		    	        ImageView randomElement = questionListImage.get(randomQIndex);   
 		    	        buttonList.get(randomBIndex).setGraphic(randomElement);
-		    	        buttonList.get(randomBIndex).setStyle("-fx-background-color: transparent");
+		    	        buttonList.get(randomBIndex).setStyle("-fx-background-color: transparent; -fx-cursor: hand");
 		    	        questionListImage.remove(randomQIndex);
 		    	        buttonList.remove(randomBIndex);
 		    	    }
@@ -146,13 +148,15 @@ public class PlayQuiz {
 			        int randomQIndex = rand.nextInt(questionListText.size());
 			        int randomBIndex = rand.nextInt(buttonList.size());
 			        String randomElement = questionListText.get(randomQIndex);
+			        buttonList.get(randomBIndex).setWrapText(true);
 			        buttonList.get(randomBIndex).setText(randomElement);
 			        buttonList.get(randomBIndex).setStyle("	-fx-background-radius: 20;\n" + 
 			        		"	-fx-min-width: 200;\n" + 
 			        		"	-fx-min-height: 100;\n" + 
 			        		"	-fx-background-color: #DAFFEF;\n" + 
 			        		"	-fx-text-fill: #39393A;\n" + 
-			        		"	-fx-font-size: 20;");
+			        		"	-fx-cursor: hand ;\n" +
+			        		"	-fx-font-size: 18;");
 			        questionListText.remove(randomQIndex);
 			        buttonList.remove(randomBIndex);
 			    }

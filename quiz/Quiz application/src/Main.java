@@ -118,6 +118,8 @@ public class Main extends Application {
         button3.setOnAction(e -> {
         		if(choiceBox.getItems().size() == 0) {
         			AlertBox.noDetails("Add school details first");
+        		} else if(PlayQuiz.hasQuizbeenPlayed == false) {
+        			AlertBox.noDetails("No statistics to show yet");
         		} else {
         			StatsPage.statsOptionsPage();
         		}
@@ -180,7 +182,10 @@ public class Main extends Application {
 					AlertBox.noDetails("Cannot add any more schools");	
 				} else {	
 					int age = Integer.parseInt(passInput.getText());
-					schoolList[i] = new School(nameInput.getText(),age);
+					StringBuilder sb = new StringBuilder(nameInput.getText());
+					sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
+					String schoolN = sb.toString();
+					schoolList[i] = new School(schoolN,age);
 					choiceBox.getItems().add(schoolList[i]);
 					statsChoiceBox.getItems().add(schoolList[i]);
 					i ++;

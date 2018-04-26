@@ -108,6 +108,7 @@ public class AlertBox {
 			PlayQuiz.questionNumber = 0;	// reset for next user
 			PlayQuiz.correctAnswers = 0;
    	 		PlayQuiz.skippedAnswers = 0;
+   	 		PlayQuiz.hasQuizbeenPlayed = true;
 
 			// Above code adds data for school into array lists
 			closeButton.setOnAction(e -> {
